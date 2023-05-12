@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "JZFu2h10Ejpi/8eTZ5jwX8TV/3d5KoeuBm99Gyuj1zP5mFYKmxUmqfG8q+Zn0XOnR0TggBU1Q/lmcFY6j1QciQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\valde\\Work\\uni\\ips\\weekly_2\\calculator\\Calculator.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\valde\\.nuget\\packages\\fsharp.core\\7.0.200\\fsharp.core.7.0.200.nupkg.sha512",
+    "C:\\Users\\valde\\.nuget\\packages\\fslexyacc\\10.2.0\\fslexyacc.10.2.0.nupkg.sha512",
+    "C:\\Users\\valde\\.nuget\\packages\\fslexyacc.runtime\\10.2.0\\fslexyacc.runtime.10.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}

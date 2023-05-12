@@ -1,0 +1,54 @@
+{
+module Lexer
+
+open System
+open FSharp.Text.Lexing
+open System.Text
+
+let keyword (s : string) =
+  match s with
+    | "of" -> Parser.OF
+    | "to" -> Parser.TO
+    | "let" -> Parser.LET
+    | "in" -> Parser.IN
+    | "sum" -> Parser.SUM
+    | "prod" -> Parser.PROD
+    | _ -> Parser.VAR s
+}
+
+rule Token = parse
+    (* Skip whitespace. *)
+    [' ' '\t' '\r' '\n' ]+
+    { Token lexbuf }
+
+    (* Integers. *)
+  | '0' | ['1'-'9']['0'-'9']*
+    { Parser.INT (int (Encoding.UTF8.GetString lexbuf.Lexeme)) }
+
+    (* Symbols *)
+  | '(' { Parser.LPAR }
+  | ')' { Parser.RPAR }
+  | '=' { Parser.EQ}
+  | '+' { Parser.PLUS}
+  | '-' { Parser.MINUS}
+  | '*' { Parser.TIMES}
+
+  | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* { keyword (Encoding.UTF8.GetString lexbuf.Lexeme) }
+
+    (* FIXME: You should implement lexing for:
+         (1) Variable names: may contain letters, digits and underscores,
+                           but it must start with one (or several) letters, 
+                           and a digit must be preceeded by an underscore.
+         (2) Keywords: 'let', 'in', 'sum', ...
+         (3) Symbols: '=', '+', ...
+       For (1) and (2), please change the regular expression above
+       to be consistent with the rule defining variable names,
+       and implement the keywords function.
+       For (3), add the relevant regular expressions under 'Symbols'
+     *)
+
+    (* Special end of file symbol. *)
+  | eof { Parser.EOF }
+
+    (* We don't understand anything else. *)
+  | _   { failwith "lexer error" }

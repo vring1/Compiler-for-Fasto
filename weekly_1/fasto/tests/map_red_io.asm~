@@ -1,0 +1,450 @@
+	.text	0x00400000
+	.globl	f.main
+	la	$x3, _heap_
+	jal	f.main
+_stop_:
+	ori	x17, x0, 10
+	ecall
+# Function plus100
+f.plus100:
+	sw	x1, -4(x2)
+	addi	x2, x2, -8
+# 	ori	_param_x_1_,x6,0
+# 	ori	_plus_L_3_,_param_x_1_,0
+	addi	x7, x0, 100
+# was:	addi	_plus_R_4_, x0, 100
+	add	x10, x6, x7
+# was:	add	_plus100res_2_, _plus_L_3_, _plus_R_4_
+# 	ori	x10,_plus100res_2_,0
+	addi	x2, x2, 8
+	lw	x1, -4(x2)
+	jr	x1
+# Function read_chr
+f.read_chr:
+	sw	x1, -4(x2)
+	addi	x2, x2, -8
+# 	ori	_param_i_5_,x6,0
+	jal	getchar
+# was:	jal	getchar, x10
+# 	ori	_read_chrres_6_,x10,0
+# 	ori	x10,_read_chrres_6_,0
+	addi	x2, x2, 8
+	lw	x1, -4(x2)
+	jr	x1
+# Function plus
+f.plus:
+	sw	x1, -4(x2)
+	addi	x2, x2, -8
+# 	ori	_param_x_7_,x6,0
+# 	ori	_param_y_8_,x7,0
+# 	ori	_plus_L_10_,_param_x_7_,0
+# 	ori	_plus_R_11_,_param_y_8_,0
+	add	x10, x6, x7
+# was:	add	_plusres_9_, _plus_L_10_, _plus_R_11_
+# 	ori	x10,_plusres_9_,0
+	addi	x2, x2, 8
+	lw	x1, -4(x2)
+	jr	x1
+# Function max_chr
+f.max_chr:
+	sw	x1, -4(x2)
+	addi	x2, x2, -8
+# 	ori	_param_a_12_,x6,0
+# 	ori	_param_b_13_,x7,0
+# 	ori	_lt_L_19_,_param_a_12_,0
+# 	ori	_lt_R_20_,_param_b_13_,0
+	slt	x8, x6, x7
+# was:	slt	_cond_18_, _lt_L_19_, _lt_R_20_
+	bne	x8, x0, _then_15_
+# was:	bne	_cond_18_, x0, _then_15_
+	j	_else_16_
+_then_15_:
+	ori	x6, x7, 0
+# was:	ori	_max_chrres_14_, _param_b_13_, 0
+	j	_endif_17_
+_else_16_:
+# 	ori	_max_chrres_14_,_param_a_12_,0
+_endif_17_:
+	ori	x10, x6, 0
+# was:	ori	x10, _max_chrres_14_, 0
+	addi	x2, x2, 8
+	lw	x1, -4(x2)
+	jr	x1
+# Function main
+f.main:
+	sw	x1, -4(x2)
+	sw	x23, -28(x2)
+	sw	x22, -24(x2)
+	sw	x21, -20(x2)
+	sw	x20, -16(x2)
+	sw	x19, -12(x2)
+	sw	x18, -8(x2)
+	addi	x2, x2, -32
+	jal	getint
+# was:	jal	getint, x10
+	ori	x6, x10, 0
+# was:	ori	_letBind_22_, x10, 0
+# 	ori	_size_reg_24_,_letBind_22_,0
+	bgez	x6, _safe_lab_25_
+# was:	bgez	_size_reg_24_, _safe_lab_25_
+	ori	x6, x0, 10
+# was:	ori	x6, x0, 10
+	la	x7, _Msg_IllegalArraySize_
+# was:	la	x7, _Msg_IllegalArraySize_
+	j	_RuntimeError_
+_safe_lab_25_:
+	ori	x18, x3, 0
+# was:	ori	_letBind_23_, x3, 0
+	slli	x7, x6, 2
+# was:	slli	_tmp_31_, _size_reg_24_, 2
+	addi	x7, x7, 4
+# was:	addi	_tmp_31_, _tmp_31_, 4
+	add	x3, x3, x7
+# was:	add	x3, x3, _tmp_31_
+	sw	x6, 0(x18)
+# was:	sw	_size_reg_24_, 0(_letBind_23_)
+	addi	x7, x18, 4
+# was:	addi	_addr_reg_26_, _letBind_23_, 4
+	ori	x8, x0, 0
+# was:	ori	_i_reg_27_, x0, 0
+_loop_beg_28_:
+	sub	x9, x8, x6
+# was:	sub	_tmp_reg_30_, _i_reg_27_, _size_reg_24_
+	bgez	x9, _loop_end_29_
+# was:	bgez	_tmp_reg_30_, _loop_end_29_
+	sw	x8, 0(x7)
+# was:	sw	_i_reg_27_, 0(_addr_reg_26_)
+	addi	x7, x7, 4
+# was:	addi	_addr_reg_26_, _addr_reg_26_, 4
+	addi	x8, x8, 1
+# was:	addi	_i_reg_27_, _i_reg_27_, 1
+	j	_loop_beg_28_
+_loop_end_29_:
+# 	ori	_arr_reg_34_,_letBind_23_,0
+	lw	x19, 0(x18)
+# was:	lw	_size_reg_33_, 0(_arr_reg_34_)
+	ori	x22, x3, 0
+# was:	ori	_letBind_32_, x3, 0
+	slli	x6, x19, 2
+# was:	slli	_tmp_43_, _size_reg_33_, 2
+	addi	x6, x6, 4
+# was:	addi	_tmp_43_, _tmp_43_, 4
+	add	x3, x3, x6
+# was:	add	x3, x3, _tmp_43_
+	sw	x19, 0(x22)
+# was:	sw	_size_reg_33_, 0(_letBind_32_)
+	addi	x20, x22, 4
+# was:	addi	_addr_reg_37_, _letBind_32_, 4
+	ori	x21, x0, 0
+# was:	ori	_i_reg_38_, x0, 0
+	addi	x23, x18, 4
+# was:	addi	_elem_reg_35_, _arr_reg_34_, 4
+_loop_beg_39_:
+	sub	x6, x21, x19
+# was:	sub	_tmp_reg_41_, _i_reg_38_, _size_reg_33_
+	bgez	x6, _loop_end_40_
+# was:	bgez	_tmp_reg_41_, _loop_end_40_
+	lw	x6, 0(x23)
+# was:	lw	_res_reg_36_, 0(_elem_reg_35_)
+	addi	x23, x23, 4
+# was:	addi	_elem_reg_35_, _elem_reg_35_, 4
+# 	ori	x6,_res_reg_36_,0
+	jal	f.plus100
+# was:	jal	f.plus100, x6
+	ori	x6, x10, 0
+# was:	ori	_tmp_reg_42_, x10, 0
+# 	ori	_res_reg_36_,_tmp_reg_42_,0
+	sw	x6, 0(x20)
+# was:	sw	_res_reg_36_, 0(_addr_reg_37_)
+	addi	x20, x20, 4
+# was:	addi	_addr_reg_37_, _addr_reg_37_, 4
+	addi	x21, x21, 1
+# was:	addi	_i_reg_38_, _i_reg_38_, 1
+	j	_loop_beg_39_
+_loop_end_40_:
+# 	ori	_arr_reg_45_,_letBind_32_,0
+	lw	x20, 0(x22)
+# was:	lw	_size_reg_46_, 0(_arr_reg_45_)
+	addi	x19, x0, 0
+# was:	addi	_letBind_44_, x0, 0
+	addi	x22, x22, 4
+# was:	addi	_arr_reg_45_, _arr_reg_45_, 4
+	ori	x21, x0, 0
+# was:	ori	_ind_var_47_, x0, 0
+_loop_beg_49_:
+	sub	x7, x21, x20
+# was:	sub	_tmp_reg_48_, _ind_var_47_, _size_reg_46_
+	bgez	x7, _loop_end_50_
+# was:	bgez	_tmp_reg_48_, _loop_end_50_
+	lw	x7, 0(x22)
+# was:	lw	_tmp_reg_48_, 0(_arr_reg_45_)
+	addi	x22, x22, 4
+# was:	addi	_arr_reg_45_, _arr_reg_45_, 4
+	ori	x6, x19, 0
+# was:	ori	x6, _letBind_44_, 0
+# 	ori	x7,_tmp_reg_48_,0
+	jal	f.plus
+# was:	jal	f.plus, x6 x7
+# 	ori	_tmp_reg_51_,x10,0
+	ori	x19, x10, 0
+# was:	ori	_letBind_44_, _tmp_reg_51_, 0
+	addi	x21, x21, 1
+# was:	addi	_ind_var_47_, _ind_var_47_, 1
+	j	_loop_beg_49_
+_loop_end_50_:
+	ori	x6, x18, 0
+# was:	ori	_arr_reg_54_, _letBind_23_, 0
+	lw	x20, 0(x6)
+# was:	lw	_size_reg_53_, 0(_arr_reg_54_)
+	ori	x18, x3, 0
+# was:	ori	_letBind_52_, x3, 0
+	addi	x7, x20, 3
+# was:	addi	_tmp_63_, _size_reg_53_, 3
+	srai	x7, x7, 2
+# was:	srai	_tmp_63_, _tmp_63_, 2
+	slli	x7, x7, 2
+# was:	slli	_tmp_63_, _tmp_63_, 2
+	addi	x7, x7, 4
+# was:	addi	_tmp_63_, _tmp_63_, 4
+	add	x3, x3, x7
+# was:	add	x3, x3, _tmp_63_
+	sw	x20, 0(x18)
+# was:	sw	_size_reg_53_, 0(_letBind_52_)
+	addi	x22, x18, 4
+# was:	addi	_addr_reg_57_, _letBind_52_, 4
+	ori	x21, x0, 0
+# was:	ori	_i_reg_58_, x0, 0
+	addi	x23, x6, 4
+# was:	addi	_elem_reg_55_, _arr_reg_54_, 4
+_loop_beg_59_:
+	sub	x6, x21, x20
+# was:	sub	_tmp_reg_61_, _i_reg_58_, _size_reg_53_
+	bgez	x6, _loop_end_60_
+# was:	bgez	_tmp_reg_61_, _loop_end_60_
+	lw	x6, 0(x23)
+# was:	lw	_res_reg_56_, 0(_elem_reg_55_)
+	addi	x23, x23, 4
+# was:	addi	_elem_reg_55_, _elem_reg_55_, 4
+# 	ori	x6,_res_reg_56_,0
+	jal	f.read_chr
+# was:	jal	f.read_chr, x6
+	ori	x6, x10, 0
+# was:	ori	_tmp_reg_62_, x10, 0
+# 	ori	_res_reg_56_,_tmp_reg_62_,0
+	sb	x6, 0(x22)
+# was:	sb	_res_reg_56_, 0(_addr_reg_57_)
+	addi	x22, x22, 1
+# was:	addi	_addr_reg_57_, _addr_reg_57_, 1
+	addi	x21, x21, 1
+# was:	addi	_i_reg_58_, _i_reg_58_, 1
+	j	_loop_beg_59_
+_loop_end_60_:
+	ori	x22, x18, 0
+# was:	ori	_arr_reg_65_, _letBind_52_, 0
+	lw	x21, 0(x22)
+# was:	lw	_size_reg_66_, 0(_arr_reg_65_)
+	ori	x20, x0, 97
+# was:	ori	_letBind_64_, x0, 97
+	addi	x22, x22, 4
+# was:	addi	_arr_reg_65_, _arr_reg_65_, 4
+	ori	x23, x0, 0
+# was:	ori	_ind_var_67_, x0, 0
+_loop_beg_69_:
+	sub	x7, x23, x21
+# was:	sub	_tmp_reg_68_, _ind_var_67_, _size_reg_66_
+	bgez	x7, _loop_end_70_
+# was:	bgez	_tmp_reg_68_, _loop_end_70_
+	lb	x7, 0(x22)
+# was:	lb	_tmp_reg_68_, 0(_arr_reg_65_)
+	addi	x22, x22, 1
+# was:	addi	_arr_reg_65_, _arr_reg_65_, 1
+	ori	x6, x20, 0
+# was:	ori	x6, _letBind_64_, 0
+# 	ori	x7,_tmp_reg_68_,0
+	jal	f.max_chr
+# was:	jal	f.max_chr, x6 x7
+# 	ori	_tmp_reg_71_,x10,0
+	ori	x20, x10, 0
+# was:	ori	_letBind_64_, _tmp_reg_71_, 0
+	addi	x23, x23, 1
+# was:	addi	_ind_var_67_, _ind_var_67_, 1
+	j	_loop_beg_69_
+_loop_end_70_:
+	la	x10, _Sumaa___74_
+# was:	la	_tmp_73_, _Sumaa___74_
+# _Sumaa___74_: string "Sum: "
+# 	ori	_letBind_72_,_tmp_73_,0
+# 	ori	x10,_tmp_73_,0
+	jal	putstring
+# was:	jal	putstring, x10
+	ori	x10, x19, 0
+# was:	ori	_tmp_76_, _letBind_44_, 0
+# 	ori	_letBind_75_,_tmp_76_,0
+# 	ori	x10,_letBind_75_,0
+	jal	putint
+# was:	jal	putint, x10
+	la	x10, _a__str__79_
+# was:	la	_tmp_78_, _a__str__79_
+# _a__str__79_: string "\n"
+# 	ori	_letBind_77_,_tmp_78_,0
+# 	ori	x10,_tmp_78_,0
+	jal	putstring
+# was:	jal	putstring, x10
+	la	x10, _Maxacha_82_
+# was:	la	_tmp_81_, _Maxacha_82_
+# _Maxacha_82_: string "Max char: "
+# 	ori	_letBind_80_,_tmp_81_,0
+# 	ori	x10,_tmp_81_,0
+	jal	putstring
+# was:	jal	putstring, x10
+	ori	x10, x20, 0
+# was:	ori	_tmp_84_, _letBind_64_, 0
+# 	ori	_letBind_83_,_tmp_84_,0
+# 	ori	x10,_letBind_83_,0
+	jal	putchar
+# was:	jal	putchar, x10
+	ori	x10, x18, 0
+# was:	ori	_mainres_21_, _letBind_52_, 0
+# 	ori	x10,_mainres_21_,0
+	addi	x2, x2, 32
+	lw	x23, -28(x2)
+	lw	x22, -24(x2)
+	lw	x21, -20(x2)
+	lw	x20, -16(x2)
+	lw	x19, -12(x2)
+	lw	x18, -8(x2)
+	lw	x1, -4(x2)
+	jr	x1
+f.ord:
+	ori	x10, x6, 0
+	jr	x1
+f.chr:
+	andi	x10, x6, 255
+	jr	x1
+putint:
+	addi	x2, x2, -8
+	sw	x17, 0(x2)
+	sw	x10, 4(x2)
+	ori	x10, x10, 0
+	ori	x17, x0, 1
+	ecall
+	ori	x17, x0, 4
+	la	x10, _space_
+	ecall
+	lw	x17, 0(x2)
+	lw	x10, 4(x2)
+	addi	x2, x2, 8
+	jr	x1
+getint:
+	ori	x17, x0, 5
+	ecall
+	jr	x1
+putchar:
+	addi	x2, x2, -8
+	sw	x17, 0(x2)
+	sw	x10, 4(x2)
+	ori	x10, x10, 0
+	ori	x17, x0, 11
+	ecall
+	ori	x17, x0, 4
+	la	x10, _space_
+	ecall
+	lw	x17, 0(x2)
+	lw	x10, 4(x2)
+	addi	x2, x2, 8
+	jr	x1
+getchar:
+	addi	x2, x2, -8
+	sw	x6, 4(x2)
+	ori	x17, x0, 12
+	ecall
+	ori	x6, x10, 0
+	ori	x17, x0, 4
+	la	x10, _cr_
+	ecall
+	ori	x10, x6, 0
+	lw	x6, 4(x2)
+	addi	x2, x2, 8
+	jr	x1
+putstring:
+	addi	x2, x2, -16
+	sw	x17, 0(x2)
+	sw	x10, 4(x2)
+	sw	x6, 8(x2)
+	sw	x7, 12(x2)
+	lw	x17, 0(x10)
+	addi	x6, x10, 4
+	add	x7, x6, x17
+	ori	x17, x0, 11
+putstring_begin:
+	sub	x10, x6, x7
+	bgez	x10, putstring_done
+	lb	x10, 0(x6)
+	ecall
+	addi	x6, x6, 1
+	j	putstring_begin
+putstring_done:
+	lw	x17, 0(x2)
+	lw	x10, 4(x2)
+	lw	x6, 8(x2)
+	lw	x7, 12(x2)
+	addi	x2, x2, 16
+	jr	x1
+_RuntimeError_:
+	la	x10, _ErrMsg_
+	ori	x17, x0, 4
+	ecall
+	ori	x10, x6, 0
+	ori	x17, x0, 1
+	ecall
+	la	x10, _colon_space_
+	ori	x17, x0, 4
+	ecall
+	ori	x10, x7, 0
+	ori	x17, x0, 4
+	ecall
+	la	x10, _cr_
+	ori	x17, x0, 4
+	ecall
+	j	_stop_
+	.data	
+# Fixed strings for I/O
+_ErrMsg_:
+	.asciz	"Runtime error at line "
+_colon_space_:
+	.asciz	": "
+_cr_:
+	.asciz	"\n"
+_space_:
+	.asciz	" "
+# Message strings for specific errors
+_Msg_IllegalArraySize_:
+	.asciz	"negative array size"
+_Msg_IllegalIndex_:
+	.asciz	"array index out of bounds"
+_Msg_DivZero_:
+	.asciz	"division by zero"
+# String Literals
+	.align	2
+_Maxacha_82_:
+	.word	10
+	.asciz	"Max char: "
+	.align	2
+_a__str__79_:
+	.word	1
+	.asciz	"\n"
+	.align	2
+_Sumaa___74_:
+	.word	5
+	.asciz	"Sum: "
+	.align	2
+_true:
+	.word	4
+	.asciz	"true"
+	.align	2
+_false:
+	.word	5
+	.asciz	"false"
+	.align	2
+_heap_:
+	.space	100000

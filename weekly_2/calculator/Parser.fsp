@@ -1,0 +1,51 @@
+%{
+open FSharp.Text.Parsing
+%}
+
+%token <int> INT
+%token <string> VAR
+%token LPAR RPAR EQ
+// FIXME: You should declare tokens for:
+//   + Operators
+//   + Keywords
+// The token for identifier (variable name) is
+//     already provided ('VAR')
+%token EOF
+%token LET IN SUM PROD
+%token PLUS MINUS DIV TIMES
+%token TO OF
+// FIXME: Add precedence rules here.
+
+%nonassoc letprec
+%left PLUS MINUS
+%left TIMES
+%nonassoc SUM PROD
+%left EQ
+
+%start Prog
+%type <AbSyn.EXP> Prog
+%type <AbSyn.EXP> Exp
+
+%%
+
+Prog : Exp EOF { $1 }
+;
+
+Exp : INT            { AbSyn.CONSTANT (AbSyn.INT $1) }
+    | VAR            { AbSyn.VARIABLE $1 }
+    | LPAR Exp RPAR  { $2 }
+    | Exp PLUS Exp  {AbSyn.OPERATE( AbSyn.BPLUS, $1, $3 )}
+    | Exp MINUS Exp {AbSyn.OPERATE( AbSyn.BMINUS, $1, $3 )}
+    | Exp TIMES Exp {AbSyn.OPERATE( AbSyn.BTIMES, $1, $3 )}
+    | SUM VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RSUM, $2, $4, $6, $8) }
+    | LET VAR EQ Exp IN Exp { AbSyn.LET_IN ($2, $4, $6)}
+    | PROD VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RPROD, $2, $4, $6, $8) }
+
+
+// FIXME: You should implement parsing for:
+//   + infix opeators
+//   + let ... = ... in ...
+//   + sum ... = ... to ... of ...  [and likewise for prod, ...]
+;
+
+%%

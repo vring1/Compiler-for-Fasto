@@ -1,0 +1,37 @@
+%{
+open FSharp.Text.Parsing
+%}
+
+%token <int> INT
+%token <string> VAR
+%token LPAR RPAR EQ
+// FIXME: You should declare tokens for:
+//   + Operators
+//   + Keywords
+// The token for identifier (variable name) is
+//     already provided ('VAR')
+%token EOF
+
+// FIXME: Add precedence rules here.
+
+%nonassoc letprec
+
+%start Prog
+%type <AbSyn.EXP> Prog
+%type <AbSyn.EXP> Exp
+
+%%
+
+Prog : Exp EOF { $1 }
+;
+
+Exp : INT            { AbSyn.CONSTANT (AbSyn.INT $1) }
+    | VAR            { AbSyn.VARIABLE $1 }
+    | LPAR Exp RPAR  { $2 }
+// FIXME: You should implement parsing for:
+//   + infix opeators
+//   + let ... = ... in ...
+//   + sum ... = ... to ... of ...  [and likewise for prod, ...]
+;
+
+%%

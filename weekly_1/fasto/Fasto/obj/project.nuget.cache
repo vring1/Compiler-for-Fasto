@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "nx6cbPQgRTphYDceH4FkoCKDYtIjjYxNw+TquiotdvNzn6CWkpPihmRvlBIASv+G0cHy9S4PSrPBILNEi7fZDQ==",
+  "success": true,
+  "projectFilePath": "/home/vring1/uni/ips/weekly_1/fasto/Fasto/Fasto.fsproj",
+  "expectedPackageFiles": [
+    "/home/vring1/.nuget/packages/fsharp.core/7.0.200/fsharp.core.7.0.200.nupkg.sha512",
+    "/home/vring1/.nuget/packages/fslexyacc/10.2.0/fslexyacc.10.2.0.nupkg.sha512",
+    "/home/vring1/.nuget/packages/fslexyacc.runtime/10.2.0/fslexyacc.runtime.10.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}
