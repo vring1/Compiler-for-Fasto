@@ -1,5 +1,5 @@
 (* ABSTRACT SYNTAX *)
-
+//
 type VALUE = INT of int
 
 type BINOP = BPLUS | BMINUS | BTIMES
