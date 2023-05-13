@@ -1,0 +1,36 @@
+fun int mul(int x, int y) =
+    if x == 0 then
+        0
+    else if y == 0 then
+        0
+    else if y < 0 then
+        0-x + mul(x, y+1)
+    else
+        x + mul(x, y-1)
+
+fun int readInt(int i) =
+    read(int)
+
+fun int main() =
+    //read input n
+    let n = read(int) in
+        //if less or equal to zero: wrong input
+        if n < 1 then
+            let error = ("Incorrect Input!") in
+            0
+        else
+            //create arr using map, iota(n) and readInt
+            let arr = iota(n) in
+                //difs using map where difs[0] -> arr[0] 
+                //and difs[i] -> arr[i] - arr[i-1] for all  0 < i < n
+            let arraydiff = map(readInt, arr) in
+            let difs = map(fn int (int i) => if i == 0 then arraydiff[0]
+                else arraydiff[i] - arraydiff[i-1], arr) in 
+            //sum of the squares from the difs array
+            let sum_squares = 
+                map (fn int (int x) => mul(difs[x],difs[x]), arr) in
+            let reduced = reduce(
+                fn int (int x, int y) => x+y, 0, sum_squares) in
+        
+            //print the result
+            write(reduced)
