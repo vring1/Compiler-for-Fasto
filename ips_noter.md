@@ -348,16 +348,78 @@ For example, the string `ab` is in *L*((`a`|`b`)∗) because (`a`|`b`)∗ ⇒
 
 ### Parentheses and Precedence Rules
 For regular expressions, we use the following conventions: ∗
-binds tighter than concatenation, which binds tighter than alternative (|). The example
+binds tighter than concatenation (sammensætning f.eks. *st* or *ts*), which binds tighter than alternative (|). The example
 ``a``|``ab``∗ from above is, hence, equivalent to ``a``|(``a``(``b``∗)).
-
-
-
-
 
 <img src="img/algebraic_properties_of_regular_expressions.PNG">
 
+The | operator is associative and commutative. Concatenation is associative (but
+obviously not commutative) and distributes over |.
 
+### Shorthands
+We use [ab01]
+as a shorthand for a|b|0|1. Additionally, we can use interval notation to abbreviate
+[0123456789] to [0–9]. We can combine several intervals within one bracket
+and for example write [a–zA–Z] to denote all alphabetic letters in both lower
+and upper case.
+
+(0|1|2|3|4|5|6|7|8|9) (0|1|2|3|4|5|6|7|8|9)∗ = [0–9][0–9]∗ = [0–9]+. Since s∗ denotes zero or more occurrences of s, we needed to write the set of
+digits twice to describe that one or more digits are allowed. 
+
+s* = zero or more occurences
+
+s+ = one ore more occurences
+
+s? = zero or one occurence = *s*|$\epsilon$
+
+The shorthand symbols + and ? bind with the same precedence as ∗.
+
+If + is nested n deep, recursive expansion of s+ to ss∗ yields 2n −1 occurrences
+of ∗ in the expanded regular expression. For example, (((a+)b)+c)+ expands to
+aa∗b(aa∗b)∗c(aa∗b(aa∗b)∗c)∗.
+
+### **Examples**
+
+1. Keywords
+    - A keyword like ``if`` is described by a regular expression that looks
+exactly like that keyword, e.g., the regular expression if (which is the concate-
+nation of the two regular expressions ``i`` and ``f``).
+2. Variable names
+    - In the programming language C, a variable name consists of let-
+ters, digits and the underscore symbol and it must begin with a letter or underscore.
+    - This can be described by the regular expression [a–zA–Z_][a–zA–Z_0–9]∗.
+3. Integers
+    - An integer constant is an optional sign followed by a non-empty sequence
+of digits: [+-]?[0−9] +.
+    - In some languages, a signed constant is not a single token,
+but a concatenation of two tokens: the sign and an unsigned number constant.
+This will usually allow whitespace between the sign and the number, which is not
+possible with the above.
+4. Floats
+    - [+-]?((([0−9] +. [0−9] ∗ | . [0−9] +)([eE][+-]?[0−9] +)?)
+| [0−9] + [eE][+-]?[0−9] +)
+    - A floating-point constant can have an optional sign. After this, the mantissa
+part is described as a sequence of digits followed by a decimal point and then
+another sequence of digits. Either one (but not both) of the digit sequences can
+be empty. Finally, there is an optional exponent part, which is the letter e (in
+upper or lower case) followed by an (optionally signed) integer constant. If there
+is an exponent part to the constant, the mantissa part can be written as an integer constant (i.e., without the decimal point).
+    - We can make the description simpler if we make
+the regular expression for floats also include integers, and instead use other means
+of distinguishing integers from floats: [+-]?(([0−9] +(. [0−9] ∗)?|. [0−9] +)([eE][+-]?[0−9] +)?)
+5. String constants
+    - “([a−zA−Z0−9]|\[a−zA−Z])∗”
+    - A string constant starts with a quotation mark followed by a
+sequence of symbols and finally another quotation mark.
+
+
+### **Section 2.1: Context-Free Grammars**
+
+
+### **Section 2.2: Derivation**
+
+
+### **Section 2.3: Operator Precedence**
 
 
 
