@@ -300,12 +300,63 @@ value of the body must match the declared result type of the function.
 
 ### Advantages and Disadvantages of Interpretation
 Once you have a abstract syntax tree, interpretation is often the simplest way of
-executing a program. However, it is also a relatively slow way to do so
+executing a program. However, it is also a relatively slow way to do so.
 
 
 
 
 ## Week 17b: A Brief Introduction to Lexing + Parsing. Section 1.1; 2.1-2.3 + lecture/lab slides; Fasto grammar
+
+### **Section 1.1 Regular Expressions**
+
+The idea is that regular expressions that describe simple sets of strings can
+be combined to form regular expressions that describe more complex sets of strings.
+
+### Unspecified regular expressions
+*r, s* and *t* in italics are used to denote unspecified regular expressions. (in this book at least)
+
+When letters stand for themselves (i.e., in
+regular expressions that describe strings that use these letters) we will use typewriter font, e.g., `a` or `b`. (`a` just means the string "a")
+
+The letters *u, v* and *w* in italics will be used to denote unspecified
+single strings, i.e., members of some language. 
+
+As an example, `ab`*w* denotes any
+string starting with `ab`. When we say, e.g., “The regular expression ``s``” we mean the regular expression that describes a single one-letter string “``s``”, but when we say “The regular expression *s*”, we mean a regular expression of any form which we just happen to call *s*. 
+
+### L(*s*)
+We use the notation L(*s*) to denote the language (i.e., set of strings)
+described by the regular expression *s*. For example, L(``a``) is the set {“``a``”}.
+
+
+To find L(*s*) for a given regular expression *s*, we use derivation: Rules that rewrite a regular expression into a string of letters.
+
+These rules allow a single regular expression
+to be rewritten into several different strings, so L(*s*) is the set of strings that *s* can be rewritten to using these rules.
+
+<img src="img/derivation_rules.PNG">
+
+As seen above "=>" denotes derivation.
+
+### **Example of using derivation rules to find the language of a regualr expression**
+*L*(`a`(`b`|`c`)) = {´ab´,´ac´} because `a`(`b`|`c`) => `a`(`b`) = `ab` and `a`(`b`|`c`) => `a`(`c`) = `ac`.
+
+*L*(`a`(`b`|`c`)*) is infinite, as * denotes any number of concatenations (including zero). It contains any sequence of `a`*s* and `b`*s* or the empty sequence. 
+
+For example, the string `ab` is in *L*((`a`|`b`)∗) because (`a`|`b`)∗ ⇒
+(`a`|`b`)(`a`|`b`)∗ ⇒ `a`(`a`|`b`)∗ ⇒ `a`(`a`|``b``)(``a``|``b``)∗ ⇒ ``ab``(``a``|``b``)∗ ⇒ ``ab``.
+
+### Parentheses and Precedence Rules
+For regular expressions, we use the following conventions: ∗
+binds tighter than concatenation, which binds tighter than alternative (|). The example
+``a``|``ab``∗ from above is, hence, equivalent to ``a``|(``a``(``b``∗)).
+
+
+
+
+
+<img src="img/algebraic_properties_of_regular_expressions.PNG">
+
 
 
 
