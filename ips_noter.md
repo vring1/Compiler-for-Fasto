@@ -414,7 +414,13 @@ sequence of symbols and finally another quotation mark.
 
 
 ### **Section 2.1: Context-Free Grammars**
+Like regular expressions, context-free grammars describe sets of strings, i.e., lan-
+guages. Additionally, a context-free grammar also defines structure on the strings in
+the language it defines.
 
+A language is defined over some alphabet, for example the
+set of tokens produced by a lexer or the set of alphanumeric characters. The symbols
+in the alphabet are called terminals.
 
 ### **Section 2.2: Derivation**
 
