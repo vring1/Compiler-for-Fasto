@@ -33,7 +33,7 @@ let parse_error_rich =
 //
 //   TODO: project task 2: replicate, filter, scan 
 //
-//   TODO: project task 4: array comprehension 
+//   TODO: project task 4: array comprehension
 //////////////////////////////////////////////////////////////////////
 
 %token <int * Position> NUM
@@ -45,11 +45,27 @@ let parse_error_rich =
 %token <Position> DEQ LTH EQ MAP REDUCE IOTA ARROW
 %token <Position> FUN FN COMMA SEMICOLON READ WRITE
 %token <Position> LPAR RPAR LBRACKET RBRACKET LCURLY RCURLY
-%token <Position> MULTIPLICATION DIVISION // HER
+%token <Position> MUL DIV
+%token <Position> NEG NOT AND OR 
+%token <Position> TRUE FALSE 
 
-%nonassoc ifprec letprec
-%left DEQ LTH
+%nonassoc ifprec
+%nonassoc letprec
+%left OR
+%left AND NOT
+%left IF THEN ELSE
+%left LET IN
+%left LTH LESS DEQ EQ
 %left PLUS MINUS
+%left MUL DIV
+%left NEG
+%right ARROW
+%left COMMA
+%left SEMICOLON
+%left IOTA
+%left MAP REDUCE
+%left LBRACKET RBRACKET
+%left LCURLY RCURLY
 
 %start Prog
 %type <AbSyn.UntypedProg> Prog
@@ -89,7 +105,7 @@ Params : Type ID COMMA Params
 
 ///////////////////////////////////////////////////////
 // TODO: project tasks 1,2,4: 
-//       add grammer rules for the new expressions
+//       add grammar rules for the new expressions
 ///////////////////////////////////////////////////////
 
 Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
@@ -102,6 +118,12 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
     | Exp MINUS Exp  { Minus($1, $3, $2) }
     | Exp DEQ   Exp  { Equal($1, $3, $2) }
     | Exp LTH   Exp  { Less ($1, $3, $2) }
+    | Exp MUL   Exp  { Times ($1, $3, $2)}
+    | Exp DIV   Exp  { Divide ($1, $3, $2)}
+    | NOT       Exp  { Not ($2, $1)}
+    | NEG       Exp  { Negate ($2, $1)}
+    | Exp AND   Exp  { And ($1, $3, $2) }
+    | Exp OR    Exp  { Or ($1, $3, $2)}
     | IF Exp THEN Exp ELSE Exp %prec ifprec
                      { If ($2, $4, $6, $1) }
     | ID LPAR Exps RPAR

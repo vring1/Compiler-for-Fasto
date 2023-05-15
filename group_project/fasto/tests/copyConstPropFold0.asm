@@ -15,15 +15,15 @@ f.f:
 	li	x10, 2
 # was:	li	_plus_R_7_, 2
 	add	x10, x12, x10
-# was:	add	_mult1_L_4_, _plus_L_6_, _plus_R_7_
+# was:	add	_times_L_4_, _plus_L_6_, _plus_R_7_
 	mv	x12, x11
 # was:	mv	_minus_L_8_, _param_y_2_
 	li	x11, 2
 # was:	li	_minus_R_9_, 2
 	sub	x11, x12, x11
-# was:	sub	_mult2_R_5_, _minus_L_8_, _minus_R_9_
+# was:	sub	_times_R_5_, _minus_L_8_, _minus_R_9_
 	mul	x10, x10, x11
-# was:	mul	_fres_3_, _mult1_L_4_, _mult2_R_5_
+# was:	mul	_fres_3_, _times_L_4_, _times_R_5_
 # 	mv	x10,_fres_3_
 	addi	x2, x2, 4
 	lw	x1, -4(x2)
@@ -44,15 +44,15 @@ f.main:
 	li	x11, 2
 # was:	li	_plus_R_18_, 2
 	add	x11, x12, x11
-# was:	add	_mult1_L_15_, _plus_L_17_, _plus_R_18_
+# was:	add	_times_L_15_, _plus_L_17_, _plus_R_18_
 	mv	x12, x10
 # was:	mv	_minus_L_19_, _let_y_14_
 	li	x10, 2
 # was:	li	_minus_R_20_, 2
 	sub	x10, x12, x10
-# was:	sub	_mult2_R_16_, _minus_L_19_, _minus_R_20_
+# was:	sub	_times_R_16_, _minus_L_19_, _minus_R_20_
 	mul	x10, x11, x10
-# was:	mul	_let_b_12_, _mult1_L_15_, _mult2_R_16_
+# was:	mul	_let_b_12_, _times_L_15_, _times_R_16_
 # 	mv	_tmp_21_,_let_b_12_
 	mv	x18, x10
 # was:	mv	_mainres_10_, _tmp_21_

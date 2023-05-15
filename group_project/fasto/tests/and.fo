@@ -1,0 +1,4 @@
+fun bool main() =
+    let x = 1 in
+    let y = 2 in
+    write_nl(not (x && y))

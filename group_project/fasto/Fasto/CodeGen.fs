@@ -237,17 +237,35 @@ let rec compileExp  (e      : TypedExp)
      version, but remember to come back and clean it up later.
      `Not` and `Negate` are simpler; you can use `XORI` for `Not`
   *)
-  | Times (_, _, _) ->
-      failwith "Unimplemented code generation of multiplication"
+  | Times (e1: Exp<Type>, e2, pos) ->
+      let t1 = newReg "times_L"
+      let t2 = newReg "times_R"
+      let code1 = compileExp e1 vtable t1
+      let code2 = compileExp e2 vtable t2
+      code1 @ code2 @ [MUL (place,t1,t2)]
 
-  | Divide (_, _, _) ->
-      failwith "Unimplemented code generation of division"
+  | Divide (e1, e2, pos) ->
+      let t1 = newReg "divide_L"
+      let t2 = newReg "divide_R"
+      let code1 = compileExp e1 vtable t1
+      let code2 = compileExp e2 vtable t2
+      //check if we are dividing by zero
+      let divByZero = newLab "divByZero"
+      let code3 = [BEQ (t2, Rzero, divByZero)]
+      let code4 = [DIV (place,t1,t2)]
+      let code5 = [J divByZero]
+      let code6 = [LABEL divByZero]
+      code1 @ code2 @ code3 @ code4 @ code5 @ code6
 
-  | Not (_, _) ->
-      failwith "Unimplemented code generation of not"
+  | Not (e1, pos) ->
+      let t1 = newReg "not"
+      let code1 = compileExp e1 vtable t1
+      code1 @ [XORI (place,t1,1)]
 
-  | Negate (_, _) ->
-      failwith "Unimplemented code generation of negate"
+  | Negate (e1, pos) ->
+      let t1 = newReg "negate"
+      let code1 = compileExp e1 vtable t1
+      code1 @ [SUB (place,Rzero,t1)]
 
   | Let (dec, e1, pos) ->
       let (code1, vtable1) = compileDec dec vtable
@@ -343,11 +361,37 @@ let rec compileExp  (e      : TypedExp)
         in `e1 || e2` if the execution of `e1` will evaluate to `true` then
         the code of `e2` must not be executed. Similarly for `And` (&&).
   *)
-  | And (_, _, _) ->
-      failwith "Unimplemented code generation of &&"
+  | And (e1, e2, pos) ->
+      let t1 = newReg "and_L"
+      let t2 = newReg "and_R"
+      let code1 = compileExp e1 vtable t1
+      let code2 = compileExp e2 vtable t2
+      let falseLabel = newLab "false"
+      let endLabel = newLab "end"
+      code1 @
+        [ BEQ (t1, Rzero, falseLabel) ] @ code2 @ [ BEQ (t2, Rzero, falseLabel)
+        ; LI (place, 1)
+        ; J endLabel
+        ; LABEL falseLabel
+        ; LI (place, 0)
+        ; LABEL endLabel
+        ]
 
-  | Or (_, _, _) ->
-      failwith "Unimplemented code generation of ||"
+  | Or (e1, e2, pos) ->
+      let t1 = newReg "or_L"
+      let t2 = newReg "or_R"
+      let code1 = compileExp e1 vtable t1
+      let code2 = compileExp e2 vtable t2
+      let trueLabel = newLab "true"
+      let endLabel = newLab "end"
+      code1 @
+        [ BNE (t1, Rzero, trueLabel) ] @ code2 @ [ BNE (t2, Rzero, trueLabel)
+        ; LI (place, 0)
+        ; J endLabel
+        ; LABEL trueLabel
+        ; LI (place, 1)
+        ; LABEL endLabel
+        ]
 
   (* Indexing:
      1. generate code to compute the index

@@ -45,51 +45,43 @@ l.loop_beg_8_:
 # was:	addi	_i_7_, _i_7_, 1
 	j	l.loop_beg_8_
 l.loop_end_9_:
-# 	mv	_div1_L_12_,_let_length_2_
+# 	mv	_divide_L_12_,_let_length_2_
 	li	x11, 10
-# was:	li	_div2_R_13_, 10
-	bne	x11, x0, l.safe_div_14_
-# was:	bne	_div2_R_13_, x0, l.safe_div_14_
-	li	x10, 4
-# was:	li	x10, 4
-	la	x11, m.DivZero
-# was:	la	x11, m.DivZero
-	j	p.RuntimeError
-l.safe_div_14_:
+# was:	li	_divide_R_13_, 10
 	div	x11, x12, x11
-# was:	div	_let_index_11_, _div1_L_12_, _div2_R_13_
-# 	mv	_arr_ind_16_,_let_index_11_
+# was:	div	_let_index_11_, _divide_L_12_, _divide_R_13_
+# 	mv	_arr_ind_15_,_let_index_11_
 	addi	x12, x10, 4
-# was:	addi	_arr_data_17_, _let_array_3_, 4
+# was:	addi	_arr_data_16_, _let_array_3_, 4
 	lw	x10, 0(x10)
-# was:	lw	_size_18_, 0(_let_array_3_)
-	bge	x11, x0, l.nonneg_20_
-# was:	bge	_arr_ind_16_, x0, l.nonneg_20_
-l.error_19_:
+# was:	lw	_size_17_, 0(_let_array_3_)
+	bge	x11, x0, l.nonneg_19_
+# was:	bge	_arr_ind_15_, x0, l.nonneg_19_
+l.error_18_:
 	li	x10, 5
 # was:	li	x10, 5
 	la	x11, m.BadIndex
 # was:	la	x11, m.BadIndex
 	j	p.RuntimeError
-l.nonneg_20_:
-	bge	x11, x10, l.error_19_
-# was:	bge	_arr_ind_16_, _size_18_, l.error_19_
+l.nonneg_19_:
+	bge	x11, x10, l.error_18_
+# was:	bge	_arr_ind_15_, _size_17_, l.error_18_
 	slli	x11, x11, 2
-# was:	slli	_arr_ind_16_, _arr_ind_16_, 2
+# was:	slli	_arr_ind_15_, _arr_ind_15_, 2
 	add	x12, x12, x11
-# was:	add	_arr_data_17_, _arr_data_17_, _arr_ind_16_
+# was:	add	_arr_data_16_, _arr_data_16_, _arr_ind_15_
 	lw	x11, 0(x12)
-# was:	lw	_let_x_15_, 0(_arr_data_17_)
-# 	mv	_mult1_L_24_,_let_x_15_
+# was:	lw	_let_x_14_, 0(_arr_data_16_)
+# 	mv	_times_L_23_,_let_x_14_
 	li	x10, 1
-# was:	li	_mult2_R_25_, 1
+# was:	li	_times_R_24_, 1
 	mul	x11, x11, x10
-# was:	mul	_plus_L_22_, _mult1_L_24_, _mult2_R_25_
+# was:	mul	_plus_L_21_, _times_L_23_, _times_R_24_
 	li	x10, 0
-# was:	li	_plus_R_23_, 0
+# was:	li	_plus_R_22_, 0
 	add	x18, x11, x10
-# was:	add	_tmp_21_, _plus_L_22_, _plus_R_23_
-# 	mv	_mainres_1_,_tmp_21_
+# was:	add	_tmp_20_, _plus_L_21_, _plus_R_22_
+# 	mv	_mainres_1_,_tmp_20_
 	mv	x10, x18
 # was:	mv	x10, _mainres_1_
 	jal	p.putint
