@@ -1,5 +1,8 @@
 # Noter til materiale fra Introduction to Compiler Design + nogle lecture/lab slides
 
+## Precedence and associativity
+<img src="img/precedence_associativity.PNG">
+
 ## Abstract Syntax Tree
 Lexical -> tokenize
 Parser -> parses tokens into a tree, that represents the structure of the code

@@ -11,6 +11,8 @@ type token =
   | IN
   | SUM
   | PROD
+  | MAX
+  | ARGMAX
   | EOF
   | LPAR
   | RPAR
@@ -28,6 +30,8 @@ type tokenId =
     | TOKEN_IN
     | TOKEN_SUM
     | TOKEN_PROD
+    | TOKEN_MAX
+    | TOKEN_ARGMAX
     | TOKEN_EOF
     | TOKEN_LPAR
     | TOKEN_RPAR

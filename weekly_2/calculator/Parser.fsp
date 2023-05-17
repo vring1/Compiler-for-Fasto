@@ -11,14 +11,14 @@ open FSharp.Text.Parsing
 // The token for identifier (variable name) is
 //     already provided ('VAR')
 %token EOF
-%token LET IN SUM PROD
-%token PLUS MINUS DIV TIMES
+%token LET IN SUM PROD MAX ARGMAX
+%token PLUS MINUS TIMES
 %token TO OF
 // FIXME: Add precedence rules here.
 
 %nonassoc letprec
-%left PLUS MINUS
 %left TIMES
+%left PLUS MINUS
 %nonassoc SUM PROD
 %left EQ
 
@@ -40,6 +40,9 @@ Exp : INT            { AbSyn.CONSTANT (AbSyn.INT $1) }
     | SUM VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RSUM, $2, $4, $6, $8) }
     | LET VAR EQ Exp IN Exp { AbSyn.LET_IN ($2, $4, $6)}
     | PROD VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RPROD, $2, $4, $6, $8) }
+    | MAX VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RMAX, $2, $4, $6, $8) }
+    | ARGMAX VAR EQ Exp TO Exp OF Exp { AbSyn.OVER (AbSyn.RARGMAX, $2, $4, $6, $8) }
+
 
 
 // FIXME: You should implement parsing for:
