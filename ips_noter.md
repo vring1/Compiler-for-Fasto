@@ -5,6 +5,7 @@
 
 ## Abstract Syntax Tree
 Lexical -> tokenize
+
 Parser -> parses tokens into a tree, that represents the structure of the code
 
 
@@ -434,8 +435,8 @@ in the alphabet are called terminals.
 
 ## Week 18: Interpretation Continued; Type Checking. Chapter 5 and  "Compilers: Principles, Techniques, and Tools", section 6.5 (see DragonTypeUnification)
 
-
-
+<img src="img/type_check.PNG">
+->
 
 ## Week 19a: Intermediate Code Generation. Chapter 6
 

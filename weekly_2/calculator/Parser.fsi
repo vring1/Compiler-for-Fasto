@@ -5,7 +5,6 @@ type token =
   | OF
   | PLUS
   | MINUS
-  | DIV
   | TIMES
   | LET
   | IN
@@ -24,7 +23,6 @@ type tokenId =
     | TOKEN_OF
     | TOKEN_PLUS
     | TOKEN_MINUS
-    | TOKEN_DIV
     | TOKEN_TIMES
     | TOKEN_LET
     | TOKEN_IN
