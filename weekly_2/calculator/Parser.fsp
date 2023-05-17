@@ -17,10 +17,10 @@ open FSharp.Text.Parsing
 // FIXME: Add precedence rules here.
 
 %nonassoc letprec
-%left TIMES
 %left PLUS MINUS
-%nonassoc SUM PROD
-%left EQ
+%left TIMES
+%left LPAR RPAR
+
 
 %start Prog
 %type <AbSyn.EXP> Prog
