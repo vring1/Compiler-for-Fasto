@@ -77,8 +77,10 @@ let parse_error_rich =
 %type <AbSyn.UntypedFunArg> FunArg
 // TODO: Task 1(b): add any new nonterminals here
 
-%type <AbSyn.UntypedDec> Dec
-%type <AbSyn.UntypedDec list> Decs
+%type <AbSyn.UntypedDec> Decl
+%type <AbSyn.UntypedDec list> Decl2
+
+//%type <AbSyn.UntypedDec list> Decs
 
 %%
 
@@ -147,18 +149,28 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
     // TODO: task 1(b): replace this with a more general production
     //| LET ID EQ Exp IN Exp %prec letprec
     //                 { Let (Dec (fst $2, $4, $3), $6, $1) }
-    | LET Decs IN Exp %prec letprec { Let ($2, $4, $1) }
+
+    | LET Decl2 IN Exp %prec letprec { Let ($2, $4, $1) }
+
     | ID LBRACKET Exp RBRACKET
                      { Index (fst $1, $3, (), $2) }
 ;
 
-Decs : Dec SEMICOLON Decs { $1 :: $3 }
-     | Dec                { $1 :: [] }
+Decl : ID EQ Exp { Dec (fst $1, $3, $2) }
+    //| ID EQ Exp Decl { $4 }
+    //| SEMICOLON Decl {$2}
+    //| ID EQ Exp SEMICOLON Decl { Dec (fst $1, $3, $2), $5 }
+    //| SEMICOLON ID EQ Exp Decl { Dec (fst $2, $4, $3), $5}
+    //| 
 ;
 
-Dec : ID EQ Exp
-        { Dec (fst $1, $3, $2) }
+Decl2 : Decl { $1 :: [] }
+      | Decl SEMICOLON Decl2 { $1 :: $3 }
 ;
+
+//Decs : Decl SEMICOLON Decs { $1 :: $3 }
+//     | Decl                { $1 :: [] }
+//;
 
 
 
@@ -174,3 +186,15 @@ FunArg : ID    { FunName (fst $1 ) }
 ;
 
 %%
+
+
+//im implementing a parser, and i need to be able to have multiple let bindings like fx. let x = 3; y=2*x; z=iota(y+4) in z[y]. This is the part of the parser im working at:
+//| LET Decl IN Exp %prec letprec { Let ($2, $4, $1) }
+//
+//    | ID LBRACKET Exp RBRACKET
+//                     { Index (fst $1, $3, (), $2) }
+//;
+//
+//Decl : ID EQ Exp { Dec (fst $1, $3, $2) }
+//    | SEMICOLON Decl { $2 }
+//;

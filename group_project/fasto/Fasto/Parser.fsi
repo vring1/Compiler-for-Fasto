@@ -98,8 +98,8 @@ type nonTerminalId =
     | NONTERM_Type
     | NONTERM_Params
     | NONTERM_Exp
-    | NONTERM_Decs
-    | NONTERM_Dec
+    | NONTERM_Decl
+    | NONTERM_Decl2
     | NONTERM_Exps
     | NONTERM_FunArg
 /// This function maps tokens to integer indexes

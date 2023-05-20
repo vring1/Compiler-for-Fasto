@@ -2692,53 +2692,53 @@ state 32:  items:    Exp -> 'LCURLY' Exps . 'RCURLY'
     Exp -> Exp . 'DIV' Exp
     Exp -> Exp . 'AND' Exp
     Exp -> Exp . 'OR' Exp
-    Exp -> 'LET' Dec 'IN' Exp . 
-  actions:    action 'TRUE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'FALSE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'NEG' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'NOT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
+    Exp -> 'LET' Decl2 'IN' Exp . 
+  actions:    action 'TRUE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'FALSE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'NEG' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'NOT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
     action 'AND' (explicit left 9986):   shift 67
     action 'OR' (explicit left 9985):   shift 68
     action 'MUL' (explicit left 9991):   shift 63
     action 'DIV' (explicit left 9991):   shift 64
-    action 'LPAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'RPAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'LBRACKET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'RBRACKET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'LCURLY' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'RCURLY' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'FUN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'FN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'COMMA' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'SEMICOLON' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'READ' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'WRITE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
+    action 'LPAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'RPAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'LBRACKET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'RBRACKET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'LCURLY' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'RCURLY' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'FUN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'FN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'COMMA' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'SEMICOLON' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'READ' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'WRITE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
     action 'DEQ' (explicit left 9989):   shift 61
     action 'LTH' (explicit left 9989):   shift 62
-    action 'EQ' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'MAP' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'REDUCE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'IOTA' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'ARROW' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
+    action 'EQ' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'MAP' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'REDUCE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'IOTA' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'ARROW' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
     action 'PLUS' (explicit left 9990):   shift 59
     action 'MINUS' (explicit left 9990):   shift 60
-    action 'LESS' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'INT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'CHAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'BOOL' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'IF' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'THEN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'ELSE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'LET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'IN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'EOF' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'ID' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'STRINGLIT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'CHARLIT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'NUM' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action 'error' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action '#' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
-    action '$$' (explicit nonassoc 9984):   reduce Exp --> 'LET' Dec 'IN' Exp
+    action 'LESS' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'INT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'CHAR' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'BOOL' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'IF' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'THEN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'ELSE' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'LET' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'IN' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'EOF' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'ID' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'STRINGLIT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'CHARLIT' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'NUM' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action 'error' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action '#' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
+    action '$$' (explicit nonassoc 9984):   reduce Exp --> 'LET' Decl2 'IN' Exp
   immediate action: <none>  gotos:state 54:  items:    Exp -> Exp . 'PLUS' Exp
     Exp -> Exp . 'MINUS' Exp
     Exp -> Exp . 'DEQ' Exp
@@ -2802,53 +2802,53 @@ state 32:  items:    Exp -> 'LCURLY' Exps . 'RCURLY'
     Exp -> Exp . 'DIV' Exp
     Exp -> Exp . 'AND' Exp
     Exp -> Exp . 'OR' Exp
-    Dec -> 'ID' 'EQ' Exp . 
-  actions:    action 'TRUE' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'FALSE' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'NEG' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'NOT' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
+    Decl -> 'ID' 'EQ' Exp . 
+  actions:    action 'TRUE' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'FALSE' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'NEG' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'NOT' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
     action 'AND' (explicit left 9986):   shift 67
     action 'OR' (explicit left 9985):   shift 68
     action 'MUL' (explicit left 9991):   shift 63
     action 'DIV' (explicit left 9991):   shift 64
-    action 'LPAR' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'RPAR' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'LBRACKET' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'RBRACKET' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'LCURLY' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'RCURLY' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'FUN' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'FN' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'COMMA' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'SEMICOLON' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'READ' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'WRITE' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
+    action 'LPAR' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'RPAR' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'LBRACKET' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'RBRACKET' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'LCURLY' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'RCURLY' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'FUN' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'FN' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'COMMA' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'SEMICOLON' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'READ' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'WRITE' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
     action 'DEQ' (explicit left 9989):   shift 61
     action 'LTH' (explicit left 9989):   shift 62
-    action 'EQ' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'MAP' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'REDUCE' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'IOTA' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'ARROW' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
+    action 'EQ' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'MAP' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'REDUCE' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'IOTA' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'ARROW' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
     action 'PLUS' (explicit left 9990):   shift 59
     action 'MINUS' (explicit left 9990):   shift 60
-    action 'LESS' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'INT' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'CHAR' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'BOOL' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'IF' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'THEN' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'ELSE' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'LET' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'IN' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'EOF' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'ID' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'STRINGLIT' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'CHARLIT' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'NUM' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action 'error' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action '#' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
-    action '$$' (explicit left 9989):   reduce Dec --> 'ID' 'EQ' Exp
+    action 'LESS' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'INT' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'CHAR' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'BOOL' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'IF' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'THEN' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'ELSE' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'LET' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'IN' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'EOF' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'ID' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'STRINGLIT' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'CHARLIT' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'NUM' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action 'error' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action '#' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
+    action '$$' (explicit left 9989):   reduce Decl --> 'ID' 'EQ' Exp
   immediate action: <none>  gotos:state 56:  items:    Exp -> Exp . 'PLUS' Exp
     Exp -> Exp . 'MINUS' Exp
     Exp -> Exp . 'DEQ' Exp
@@ -2875,7 +2875,7 @@ state 32:  items:    Exp -> 'LCURLY' Exps . 'RCURLY'
     action 'RCURLY' (noprec):   reduce Exps --> Exp
     action 'FUN' (noprec):   reduce Exps --> Exp
     action 'FN' (noprec):   reduce Exps --> Exp
-    action 'COMMA' (explicit left 9994):   shift 106
+    action 'COMMA' (explicit left 9994):   shift 109
     action 'SEMICOLON' (noprec):   reduce Exps --> Exp
     action 'READ' (noprec):   reduce Exps --> Exp
     action 'WRITE' (noprec):   reduce Exps --> Exp
@@ -4366,7 +4366,7 @@ state 85:  items:    Exp -> 'IOTA' 'LPAR' Exp 'RPAR' .
     action 'LCURLY' (noprec):   error
     action 'RCURLY' (noprec):   error
     action 'FUN' (noprec):   error
-    action 'FN' (noprec):   shift 109
+    action 'FN' (noprec):   shift 112
     action 'COMMA' (noprec):   error
     action 'SEMICOLON' (noprec):   error
     action 'READ' (noprec):   error
@@ -4390,7 +4390,7 @@ state 85:  items:    Exp -> 'IOTA' 'LPAR' Exp 'RPAR' .
     action 'LET' (noprec):   error
     action 'IN' (noprec):   error
     action 'EOF' (noprec):   error
-    action 'ID' (noprec):   shift 108
+    action 'ID' (noprec):   shift 111
     action 'STRINGLIT' (noprec):   error
     action 'CHARLIT' (noprec):   error
     action 'NUM' (noprec):   error
@@ -4603,7 +4603,7 @@ state 90:  items:    Exp -> 'MAP' 'LPAR' FunArg 'COMMA' Exp 'RPAR' .
     action 'LCURLY' (noprec):   error
     action 'RCURLY' (noprec):   error
     action 'FUN' (noprec):   error
-    action 'FN' (noprec):   shift 109
+    action 'FN' (noprec):   shift 112
     action 'COMMA' (noprec):   error
     action 'SEMICOLON' (noprec):   error
     action 'READ' (noprec):   error
@@ -4627,7 +4627,7 @@ state 90:  items:    Exp -> 'MAP' 'LPAR' FunArg 'COMMA' Exp 'RPAR' .
     action 'LET' (noprec):   error
     action 'IN' (noprec):   error
     action 'EOF' (noprec):   error
-    action 'ID' (noprec):   shift 108
+    action 'ID' (noprec):   shift 111
     action 'STRINGLIT' (noprec):   error
     action 'CHARLIT' (noprec):   error
     action 'NUM' (noprec):   error
@@ -4920,7 +4920,7 @@ state 98:  items:    Exp -> 'LPAR' Exp 'RPAR' .
     action 'error' (noprec):   reduce Exp --> 'LPAR' Exp 'RPAR'
     action '#' (noprec):   reduce Exp --> 'LPAR' Exp 'RPAR'
     action '$$' (noprec):   reduce Exp --> 'LPAR' Exp 'RPAR'
-  immediate action:   reduce Exp --> 'LPAR' Exp 'RPAR'  gotos:state 99:  items:    Exp -> 'LET' . Dec 'IN' Exp
+  immediate action:   reduce Exp --> 'LPAR' Exp 'RPAR'  gotos:state 99:  items:    Exp -> 'LET' . Decl2 'IN' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -4967,8 +4967,9 @@ state 98:  items:    Exp -> 'LPAR' Exp 'RPAR' .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto Dec: 100
-state 100:  items:    Exp -> 'LET' Dec . 'IN' Exp
+  immediate action: <none>  gotos:    goto Decl: 106
+    goto Decl2: 100
+state 100:  items:    Exp -> 'LET' Decl2 . 'IN' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -5015,7 +5016,7 @@ state 100:  items:    Exp -> 'LET' Dec . 'IN' Exp
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 101:  items:    Exp -> 'LET' Dec 'IN' . Exp
+  immediate action: <none>  gotos:state 101:  items:    Exp -> 'LET' Decl2 'IN' . Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (explicit left 9992):   shift 66
@@ -5158,7 +5159,7 @@ state 103:  items:    Exp -> 'ID' 'LBRACKET' Exp 'RBRACKET' .
     action 'error' (explicit left 9998):   reduce Exp --> 'ID' 'LBRACKET' Exp 'RBRACKET'
     action '#' (explicit left 9998):   reduce Exp --> 'ID' 'LBRACKET' Exp 'RBRACKET'
     action '$$' (explicit left 9998):   reduce Exp --> 'ID' 'LBRACKET' Exp 'RBRACKET'
-  immediate action:   reduce Exp --> 'ID' 'LBRACKET' Exp 'RBRACKET'  gotos:state 104:  items:    Dec -> 'ID' . 'EQ' Exp
+  immediate action:   reduce Exp --> 'ID' 'LBRACKET' Exp 'RBRACKET'  gotos:state 104:  items:    Decl -> 'ID' . 'EQ' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -5205,7 +5206,7 @@ state 103:  items:    Exp -> 'ID' 'LBRACKET' Exp 'RBRACKET' .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 105:  items:    Dec -> 'ID' 'EQ' . Exp
+  immediate action: <none>  gotos:state 105:  items:    Decl -> 'ID' 'EQ' . Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (explicit left 9992):   shift 66
@@ -5253,7 +5254,151 @@ state 103:  items:    Exp -> 'ID' 'LBRACKET' Exp 'RBRACKET' .
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto Exp: 55
-state 106:  items:    Exps -> Exp 'COMMA' . Exps
+state 106:  items:    Decl2 -> Decl . 
+    Decl2 -> Decl . 'SEMICOLON' Decl2
+  actions:    action 'TRUE' (noprec):   reduce Decl2 --> Decl
+    action 'FALSE' (noprec):   reduce Decl2 --> Decl
+    action 'NEG' (noprec):   reduce Decl2 --> Decl
+    action 'NOT' (noprec):   reduce Decl2 --> Decl
+    action 'AND' (noprec):   reduce Decl2 --> Decl
+    action 'OR' (noprec):   reduce Decl2 --> Decl
+    action 'MUL' (noprec):   reduce Decl2 --> Decl
+    action 'DIV' (noprec):   reduce Decl2 --> Decl
+    action 'LPAR' (noprec):   reduce Decl2 --> Decl
+    action 'RPAR' (noprec):   reduce Decl2 --> Decl
+    action 'LBRACKET' (noprec):   reduce Decl2 --> Decl
+    action 'RBRACKET' (noprec):   reduce Decl2 --> Decl
+    action 'LCURLY' (noprec):   reduce Decl2 --> Decl
+    action 'RCURLY' (noprec):   reduce Decl2 --> Decl
+    action 'FUN' (noprec):   reduce Decl2 --> Decl
+    action 'FN' (noprec):   reduce Decl2 --> Decl
+    action 'COMMA' (noprec):   reduce Decl2 --> Decl
+    action 'SEMICOLON' (explicit left 9995):   shift 107
+    action 'READ' (noprec):   reduce Decl2 --> Decl
+    action 'WRITE' (noprec):   reduce Decl2 --> Decl
+    action 'DEQ' (noprec):   reduce Decl2 --> Decl
+    action 'LTH' (noprec):   reduce Decl2 --> Decl
+    action 'EQ' (noprec):   reduce Decl2 --> Decl
+    action 'MAP' (noprec):   reduce Decl2 --> Decl
+    action 'REDUCE' (noprec):   reduce Decl2 --> Decl
+    action 'IOTA' (noprec):   reduce Decl2 --> Decl
+    action 'ARROW' (noprec):   reduce Decl2 --> Decl
+    action 'PLUS' (noprec):   reduce Decl2 --> Decl
+    action 'MINUS' (noprec):   reduce Decl2 --> Decl
+    action 'LESS' (noprec):   reduce Decl2 --> Decl
+    action 'INT' (noprec):   reduce Decl2 --> Decl
+    action 'CHAR' (noprec):   reduce Decl2 --> Decl
+    action 'BOOL' (noprec):   reduce Decl2 --> Decl
+    action 'IF' (noprec):   reduce Decl2 --> Decl
+    action 'THEN' (noprec):   reduce Decl2 --> Decl
+    action 'ELSE' (noprec):   reduce Decl2 --> Decl
+    action 'LET' (noprec):   reduce Decl2 --> Decl
+    action 'IN' (noprec):   reduce Decl2 --> Decl
+    action 'EOF' (noprec):   reduce Decl2 --> Decl
+    action 'ID' (noprec):   reduce Decl2 --> Decl
+    action 'STRINGLIT' (noprec):   reduce Decl2 --> Decl
+    action 'CHARLIT' (noprec):   reduce Decl2 --> Decl
+    action 'NUM' (noprec):   reduce Decl2 --> Decl
+    action 'error' (noprec):   reduce Decl2 --> Decl
+    action '#' (noprec):   reduce Decl2 --> Decl
+    action '$$' (noprec):   reduce Decl2 --> Decl
+  immediate action: <none>  gotos:state 107:  items:    Decl2 -> Decl 'SEMICOLON' . Decl2
+  actions:    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'NEG' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'MUL' (noprec):   error
+    action 'DIV' (noprec):   error
+    action 'LPAR' (noprec):   error
+    action 'RPAR' (noprec):   error
+    action 'LBRACKET' (noprec):   error
+    action 'RBRACKET' (noprec):   error
+    action 'LCURLY' (noprec):   error
+    action 'RCURLY' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'FN' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEMICOLON' (noprec):   error
+    action 'READ' (noprec):   error
+    action 'WRITE' (noprec):   error
+    action 'DEQ' (noprec):   error
+    action 'LTH' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'MAP' (noprec):   error
+    action 'REDUCE' (noprec):   error
+    action 'IOTA' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'EOF' (noprec):   error
+    action 'ID' (noprec):   shift 104
+    action 'STRINGLIT' (noprec):   error
+    action 'CHARLIT' (noprec):   error
+    action 'NUM' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto Decl: 106
+    goto Decl2: 108
+state 108:  items:    Decl2 -> Decl 'SEMICOLON' Decl2 . 
+  actions:    action 'TRUE' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'FALSE' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'NEG' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'NOT' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'AND' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'OR' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'MUL' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'DIV' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LPAR' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'RPAR' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LBRACKET' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'RBRACKET' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LCURLY' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'RCURLY' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'FUN' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'FN' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'COMMA' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'SEMICOLON' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'READ' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'WRITE' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'DEQ' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LTH' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'EQ' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'MAP' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'REDUCE' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'IOTA' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'ARROW' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'PLUS' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'MINUS' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LESS' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'INT' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'CHAR' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'BOOL' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'IF' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'THEN' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'ELSE' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'LET' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'IN' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'EOF' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'ID' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'STRINGLIT' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'CHARLIT' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'NUM' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action 'error' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action '#' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+    action '$$' (explicit left 9995):   reduce Decl2 --> Decl 'SEMICOLON' Decl2
+  immediate action:   reduce Decl2 --> Decl 'SEMICOLON' Decl2  gotos:state 109:  items:    Exps -> Exp 'COMMA' . Exps
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (explicit left 9992):   shift 66
@@ -5301,8 +5446,8 @@ state 106:  items:    Exps -> Exp 'COMMA' . Exps
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto Exp: 56
-    goto Exps: 107
-state 107:  items:    Exps -> Exp 'COMMA' Exps . 
+    goto Exps: 110
+state 110:  items:    Exps -> Exp 'COMMA' Exps . 
   actions:    action 'TRUE' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
     action 'FALSE' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
     action 'NEG' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
@@ -5349,7 +5494,7 @@ state 107:  items:    Exps -> Exp 'COMMA' Exps .
     action 'error' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
     action '#' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
     action '$$' (explicit left 9994):   reduce Exps --> Exp 'COMMA' Exps
-  immediate action:   reduce Exps --> Exp 'COMMA' Exps  gotos:state 108:  items:    FunArg -> 'ID' . 
+  immediate action:   reduce Exps --> Exp 'COMMA' Exps  gotos:state 111:  items:    FunArg -> 'ID' . 
   actions:    action 'TRUE' (noprec):   reduce FunArg --> 'ID'
     action 'FALSE' (noprec):   reduce FunArg --> 'ID'
     action 'NEG' (noprec):   reduce FunArg --> 'ID'
@@ -5396,7 +5541,7 @@ state 107:  items:    Exps -> Exp 'COMMA' Exps .
     action 'error' (noprec):   reduce FunArg --> 'ID'
     action '#' (noprec):   reduce FunArg --> 'ID'
     action '$$' (noprec):   reduce FunArg --> 'ID'
-  immediate action:   reduce FunArg --> 'ID'  gotos:state 109:  items:    FunArg -> 'FN' . Type 'LPAR' 'RPAR' 'ARROW' Exp
+  immediate action:   reduce FunArg --> 'ID'  gotos:state 112:  items:    FunArg -> 'FN' . Type 'LPAR' 'RPAR' 'ARROW' Exp
     FunArg -> 'FN' . Type 'LPAR' Params 'RPAR' 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
@@ -5444,8 +5589,8 @@ state 107:  items:    Exps -> Exp 'COMMA' Exps .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto Type: 110
-state 110:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
+  immediate action: <none>  gotos:    goto Type: 113
+state 113:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
     FunArg -> 'FN' Type . 'LPAR' Params 'RPAR' 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
@@ -5455,7 +5600,7 @@ state 110:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
     action 'OR' (noprec):   error
     action 'MUL' (noprec):   error
     action 'DIV' (noprec):   error
-    action 'LPAR' (noprec):   shift 111
+    action 'LPAR' (noprec):   shift 114
     action 'RPAR' (noprec):   error
     action 'LBRACKET' (noprec):   error
     action 'RBRACKET' (noprec):   error
@@ -5493,7 +5638,7 @@ state 110:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 111:  items:    FunArg -> 'FN' Type 'LPAR' . 'RPAR' 'ARROW' Exp
+  immediate action: <none>  gotos:state 114:  items:    FunArg -> 'FN' Type 'LPAR' . 'RPAR' 'ARROW' Exp
     FunArg -> 'FN' Type 'LPAR' . Params 'RPAR' 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
@@ -5504,7 +5649,7 @@ state 110:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
     action 'MUL' (noprec):   error
     action 'DIV' (noprec):   error
     action 'LPAR' (noprec):   error
-    action 'RPAR' (noprec):   shift 112
+    action 'RPAR' (noprec):   shift 115
     action 'LBRACKET' (explicit left 9998):   shift 20
     action 'RBRACKET' (noprec):   error
     action 'LCURLY' (noprec):   error
@@ -5542,8 +5687,8 @@ state 110:  items:    FunArg -> 'FN' Type . 'LPAR' 'RPAR' 'ARROW' Exp
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto Type: 23
-    goto Params: 114
-state 112:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' . 'ARROW' Exp
+    goto Params: 117
+state 115:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' . 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -5570,7 +5715,7 @@ state 112:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' . 'ARROW' Exp
     action 'MAP' (noprec):   error
     action 'REDUCE' (noprec):   error
     action 'IOTA' (noprec):   error
-    action 'ARROW' (explicit right 9993):   shift 113
+    action 'ARROW' (explicit right 9993):   shift 116
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
     action 'LESS' (noprec):   error
@@ -5590,7 +5735,7 @@ state 112:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' . 'ARROW' Exp
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 113:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' 'ARROW' . Exp
+  immediate action: <none>  gotos:state 116:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' 'ARROW' . Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (explicit left 9992):   shift 66
@@ -5638,7 +5783,7 @@ state 112:  items:    FunArg -> 'FN' Type 'LPAR' 'RPAR' . 'ARROW' Exp
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto Exp: 57
-state 114:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
+state 117:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -5648,7 +5793,7 @@ state 114:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
     action 'MUL' (noprec):   error
     action 'DIV' (noprec):   error
     action 'LPAR' (noprec):   error
-    action 'RPAR' (noprec):   shift 115
+    action 'RPAR' (noprec):   shift 118
     action 'LBRACKET' (noprec):   error
     action 'RBRACKET' (noprec):   error
     action 'LCURLY' (noprec):   error
@@ -5685,7 +5830,7 @@ state 114:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 115:  items:    FunArg -> 'FN' Type 'LPAR' Params 'RPAR' . 'ARROW' Exp
+  immediate action: <none>  gotos:state 118:  items:    FunArg -> 'FN' Type 'LPAR' Params 'RPAR' . 'ARROW' Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (noprec):   error
@@ -5712,7 +5857,7 @@ state 114:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
     action 'MAP' (noprec):   error
     action 'REDUCE' (noprec):   error
     action 'IOTA' (noprec):   error
-    action 'ARROW' (explicit right 9993):   shift 116
+    action 'ARROW' (explicit right 9993):   shift 119
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
     action 'LESS' (noprec):   error
@@ -5732,7 +5877,7 @@ state 114:  items:    FunArg -> 'FN' Type 'LPAR' Params . 'RPAR' 'ARROW' Exp
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 116:  items:    FunArg -> 'FN' Type 'LPAR' Params 'RPAR' 'ARROW' . Exp
+  immediate action: <none>  gotos:state 119:  items:    FunArg -> 'FN' Type 'LPAR' Params 'RPAR' 'ARROW' . Exp
   actions:    action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
     action 'NEG' (explicit left 9992):   shift 66
