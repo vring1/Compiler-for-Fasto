@@ -5254,8 +5254,8 @@ state 103:  items:    Exp -> 'ID' 'LBRACKET' Exp 'RBRACKET' .
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto Exp: 55
-state 106:  items:    Decl2 -> Decl . 
-    Decl2 -> Decl . 'SEMICOLON' Decl2
+state 106:  items:    Decl2 -> Decl . 'SEMICOLON' Decl2
+    Decl2 -> Decl . 
   actions:    action 'TRUE' (noprec):   reduce Decl2 --> Decl
     action 'FALSE' (noprec):   reduce Decl2 --> Decl
     action 'NEG' (noprec):   reduce Decl2 --> Decl
