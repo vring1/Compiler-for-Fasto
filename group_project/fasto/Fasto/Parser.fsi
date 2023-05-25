@@ -28,6 +28,9 @@ type token =
   | REDUCE of (Position)
   | IOTA of (Position)
   | ARROW of (Position)
+  | REPLICATE of (Position)
+  | SCAN of (Position)
+  | FILTER of (Position)
   | PLUS of (Position)
   | MINUS of (Position)
   | LESS of (Position)
@@ -72,6 +75,9 @@ type tokenId =
     | TOKEN_REDUCE
     | TOKEN_IOTA
     | TOKEN_ARROW
+    | TOKEN_REPLICATE
+    | TOKEN_SCAN
+    | TOKEN_FILTER
     | TOKEN_PLUS
     | TOKEN_MINUS
     | TOKEN_LESS
@@ -98,8 +104,7 @@ type nonTerminalId =
     | NONTERM_Type
     | NONTERM_Params
     | NONTERM_Exp
-    | NONTERM_Decl
-    | NONTERM_Decl2
+    | NONTERM_Decls
     | NONTERM_Exps
     | NONTERM_FunArg
 /// This function maps tokens to integer indexes

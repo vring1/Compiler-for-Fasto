@@ -584,8 +584,36 @@ let rec compileExp  (e      : TypedExp)
         If `n` is less than `0` then remember to terminate the program with
         an error -- see implementation of `iota`.
   *)
+
+
+//    C-like pseudokode for replicate
+//
+//    void* replicate(int n, void* a) 
+//    {
+//      if n < 0 then error
+//      else 
+//      {
+//        void* arr = dynalloc(n, place, void*);
+//        arr[0] = n;
+//        for (int i = 1; i < n; i++) {
+//          arr[i] = a;
+//        }
+//      }
+//    }
+
+
+
+
   | Replicate (_, _, _, _) ->
-      failwith "Unimplemented code generation of replicate"
+        failwith "replicate in codegen"
+      //let size_reg = newReg "size" (* size of input/output array *)
+      //let arr_reg  = newReg "arr"  (* address of array *)
+      //let elem_reg = newReg "elem" (* address of current element *)
+      //let res_reg = newReg "res"
+      //let arr_code = compileExp arr_exp vtable arr_reg
+//
+      //let get_size = [ LW (size_reg, arr_reg, 0) ]
+
 
   (* TODO project task 2: see also the comment to replicate.
      (a) `filter(f, arr)`:  has some similarity with the implementation of map.
@@ -602,18 +630,88 @@ let rec compileExp  (e      : TypedExp)
          counter computed in step (c). You do this of course with a
          `SW(counter_reg, place, 0)` instruction.
   *)
+
+  
+  // C like pseudokode for filter
+  //
+  // void* filter(void* f, void* arr)
+  // {
+  //  int n = arr[0];
+  //  void* res = dynalloc(n, place, void*);
+  //  int counter = 1;
+  //  for (int i = 1; i < n; i++) {
+  //    if (f(arr[i])) {
+  //      res[counter] = arr[i];
+  //      counter++;
+  //    }
+  //  }
+  //  res[0] = counter;
+  //}  
+
   | Filter (_, _, _, _) ->
       failwith "Unimplemented code generation of filter"
 
   (* TODO project task 2: see also the comment to replicate.
-     `scan(f, ne, arr)`: you can inspire yourself from the implementation of
+        `scan(f, ne, arr)`: you can inspire yourself from the implementation of
         `reduce`, but in the case of `scan` you will need to also maintain
         an iterator through the result array, and write the accumulator in
         the current location of the result iterator at every iteration of
         the loop.
   *)
-  | Scan (_, _, _, _, _) ->
-      failwith "Unimplemented code generation of scan"
+
+  // C like pseudokode for scan
+  //
+  // void* scan(void* f, void* ne, void* arr)
+  // {
+  //  int n = arr[0];
+  //  void* res = dynalloc(n, place, void*);
+  //  res[0] = ne;
+  //  for (int i = 1; i < n; i++) {
+  //    res[i] = f(res[i-1], arr[i]);
+  //  }
+  //}
+
+
+  | Scan (binop, acc_exp, arr_exp, tp, pos) ->
+      let arr_reg  = newReg "arr"   (* address of array *)
+      let size_reg = newReg "size"  (* size of input array *)
+      let i_reg    = newReg "ind_var"   (* loop counter *)
+      let tmp_reg  = newReg "tmp"   (* several purposes *)
+      let loop_beg = newLab "loop_beg"
+      let loop_end = newLab "loop_end"
+
+      let arr_code = compileExp arr_exp vtable arr_reg
+      let header1 = [ LW(size_reg, arr_reg, 0) ]
+
+      (* Compile initial value into place (will be updated below) *)
+      let acc_code = compileExp acc_exp vtable place
+
+      (* Set arr_reg to address of first element instead. *)
+      (* Set i_reg to 0. While i < size_reg, loop. *)
+      let loop_code =
+              [ ADDI (arr_reg, arr_reg, 4)
+              ; MV (i_reg, Rzero)
+              ; LABEL (loop_beg)
+              ; BGE (i_reg, size_reg, loop_end)
+              ]
+      (* Load arr[i] into tmp_reg *)
+      let elem_size = getElemSize tp
+      let load_code =
+        [ Load elem_size (tmp_reg, arr_reg, 0)
+        ; ADDI (arr_reg, arr_reg, elemSizeToInt elem_size)
+        ]
+      (* place := binop(place, tmp_reg) *)
+      let apply_code =
+            applyFunArg(binop, [place; tmp_reg], vtable, place, pos)
+
+      arr_code @ header1 @ acc_code @ loop_code @ load_code @ apply_code @
+         [ ADDI(i_reg, i_reg, 1)
+         ; J loop_beg
+         ; LABEL loop_end
+         ]
+
+      
+
 
 and applyFunArg ( ff     : TypedFunArg
                 , args   : reg list

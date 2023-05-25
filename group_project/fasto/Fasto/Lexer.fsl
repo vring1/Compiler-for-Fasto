@@ -70,6 +70,9 @@ let keyword (s, pos) =
        | "iota"         -> Parser.IOTA pos
        | "map"          -> Parser.MAP  pos
        | "reduce"       -> Parser.REDUCE pos
+       | "replicate"    -> Parser.REPLICATE pos
+       | "filter"       -> Parser.FILTER pos
+       | "scan"         -> Parser.SCAN pos
        | "read"         -> Parser.READ pos
        | "write"        -> Parser.WRITE pos
        | _              -> Parser.ID (s, pos)

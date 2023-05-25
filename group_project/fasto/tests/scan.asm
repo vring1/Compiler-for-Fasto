@@ -78,50 +78,53 @@ f.main:
 # was:	sw	_tmp_13_, 0(_addr_12_)
 	addi	x10, x10, 4
 # was:	addi	_addr_12_, _addr_12_, 4
-# 	mv	_inp_17_,_let_a_10_
-	li	x10, 0
-# was:	li	_acc_21_, 0
+# 	mv	_arr_16_,_let_a_10_
 	lw	x18, 0(x19)
-# was:	lw	_size_18_, 0(_inp_17_)
-	addi	x19, x19, 4
-# was:	addi	_inp_17_, _inp_17_, 4
-	mv	x20, x3
-# was:	mv	_let_b_15_, x3
-	slli	x11, x18, 2
-# was:	slli	_tmp_24_, _size_18_, 2
-	addi	x11, x11, 4
+# was:	lw	_size_17_, 0(_arr_16_)
+	addi	x11, x18, 1
+# was:	addi	_tmp_19_, _size_17_, 1
+	mv	x12, x3
+# was:	mv	_result_22_, x3
+	slli	x10, x11, 2
+# was:	slli	_tmp_24_, _tmp_19_, 2
+	addi	x10, x10, 4
 # was:	addi	_tmp_24_, _tmp_24_, 4
-	add	x3, x3, x11
+	add	x3, x3, x10
 # was:	add	x3, x3, _tmp_24_
-	sw	x18, 0(x20)
-# was:	sw	_size_18_, 0(_let_b_15_)
-	addi	x22, x20, 4
-# was:	addi	_res_16_, _let_b_15_, 4
+	sw	x11, 0(x12)
+# was:	sw	_tmp_19_, 0(_result_22_)
+	addi	x20, x12, 4
+# was:	addi	_result_ptr_23_, _result_22_, 4
+	li	x10, 0
+# was:	li	_let_b_15_, 0
+	sw	x10, 0(x12)
+# was:	sw	_let_b_15_, 0(_result_22_)
+	addi	x19, x19, 4
+# was:	addi	_arr_16_, _arr_16_, 4
 	mv	x21, x0
-# was:	mv	_ind_19_, x0
-l.loop_beg_22_:
-	bge	x21, x18, l.loop_end_23_
-# was:	bge	_ind_19_, _size_18_, l.loop_end_23_
+# was:	mv	_ind_var_18_, x0
+l.loop_beg_20_:
+	bge	x21, x18, l.loop_end_21_
+# was:	bge	_ind_var_18_, _size_17_, l.loop_end_21_
 	lw	x11, 0(x19)
-# was:	lw	_tmp_20_, 0(_inp_17_)
-# 	mv	x10,_acc_21_
-# 	mv	x11,_tmp_20_
+# was:	lw	_tmp_19_, 0(_arr_16_)
+	addi	x19, x19, 4
+# was:	addi	_arr_16_, _arr_16_, 4
+# 	mv	x10,_let_b_15_
+# 	mv	x11,_tmp_19_
 	jal	f.incr
 # was:	jal	f.incr, x10 x11
 # 	mv	_tmp_25_,x10
-# 	mv	_acc_21_,_tmp_25_
-	sw	x10, 0(x22)
-# was:	sw	_acc_21_, 0(_res_16_)
-	addi	x22, x22, 4
-# was:	addi	_res_16_, _res_16_, 4
-	addi	x19, x19, 4
-# was:	addi	_inp_17_, _inp_17_, 4
+# 	mv	_let_b_15_,_tmp_25_
+	sw	x10, 0(x20)
+# was:	sw	_let_b_15_, 0(_result_ptr_23_)
+	addi	x20, x20, 4
+# was:	addi	_result_ptr_23_, _result_ptr_23_, 4
 	addi	x21, x21, 1
-# was:	addi	_ind_19_, _ind_19_, 1
-	j	l.loop_beg_22_
-l.loop_end_23_:
-	mv	x10, x20
-# was:	mv	_arr_27_, _let_b_15_
+# was:	addi	_ind_var_18_, _ind_var_18_, 1
+	j	l.loop_beg_20_
+l.loop_end_21_:
+# 	mv	_arr_27_,_let_b_15_
 	lw	x19, 0(x10)
 # was:	lw	_size_26_, 0(_arr_27_)
 	mv	x18, x3
