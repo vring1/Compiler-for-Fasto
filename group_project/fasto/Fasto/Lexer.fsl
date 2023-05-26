@@ -108,11 +108,9 @@ rule Token = parse
                           }
   | '+'                   { Parser.PLUS   (getPos lexbuf) }
   | '-'                   { Parser.MINUS  (getPos lexbuf) }
-  | '*'                   { Parser.MUL  (getPos lexbuf)} // HER
-  | '/'                   { Parser.DIV  (getPos lexbuf)} // HER
+  | '*'                   { Parser.MUL  (getPos lexbuf)} 
+  | '/'                   { Parser.DIV  (getPos lexbuf)} 
   | '~'                   { Parser.NEG (getPos lexbuf)}
-  //| "not"                { Parser.NOT (getPos lexbuf)}
-  //| 'false'
   | ';'                   {Parser.SEMICOLON (getPos lexbuf)}
   | "&&"                  { Parser.AND (getPos lexbuf)}
   | "||"                  { Parser.OR (getPos lexbuf)}

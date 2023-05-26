@@ -54,46 +54,44 @@ f.main:
 # was:	div	_eq_L_12_, _divide_L_14_, _divide_R_15_
 	j	l.divByZero_16_
 l.divByZero_16_:
-	li	x10, 1
-# was:	li	_eq_R_13_, 1
-	li	x12, 0
-# was:	li	_arg_11_, 0
-	bne	x11, x10, l.false_17_
-# was:	bne	_eq_L_12_, _eq_R_13_, l.false_17_
 	li	x12, 1
+# was:	li	_eq_R_13_, 1
+	li	x10, 0
+# was:	li	_arg_11_, 0
+	bne	x11, x12, l.false_17_
+# was:	bne	_eq_L_12_, _eq_R_13_, l.false_17_
+	li	x10, 1
 # was:	li	_arg_11_, 1
 l.false_17_:
-	mv	x10, x12
-# was:	mv	x10, _arg_11_
+# 	mv	x10,_arg_11_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 	mv	x19, x10
 # was:	mv	_let_x0_10_, x10
 	li	x10, 3
-# was:	li	_negate_24_, 3
-	sub	x10, x0, x10
-# was:	sub	_divide_L_22_, x0, _negate_24_
+# was:	li	_divide_L_23_, 3
 	li	x11, 2
-# was:	li	_divide_R_23_, 2
+# was:	li	_divide_R_24_, 2
 	beq	x11, x0, l.divByZero_25_
-# was:	beq	_divide_R_23_, x0, l.divByZero_25_
+# was:	beq	_divide_R_24_, x0, l.divByZero_25_
 	div	x20, x10, x11
-# was:	div	_eq_L_20_, _divide_L_22_, _divide_R_23_
+# was:	div	_negate_22_, _divide_L_23_, _divide_R_24_
 	j	l.divByZero_25_
 l.divByZero_25_:
+	sub	x11, x0, x20
+# was:	sub	_eq_L_20_, x0, _negate_22_
 	li	x10, 2
 # was:	li	_negate_26_, 2
-	sub	x10, x0, x10
+	sub	x12, x0, x10
 # was:	sub	_eq_R_21_, x0, _negate_26_
-	li	x11, 0
+	li	x10, 0
 # was:	li	_arg_19_, 0
-	bne	x20, x10, l.false_27_
+	bne	x11, x12, l.false_27_
 # was:	bne	_eq_L_20_, _eq_R_21_, l.false_27_
-	li	x11, 1
+	li	x10, 1
 # was:	li	_arg_19_, 1
 l.false_27_:
-	mv	x10, x11
-# was:	mv	x10, _arg_19_
+# 	mv	x10,_arg_19_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 	mv	x20, x10
@@ -112,40 +110,39 @@ l.false_27_:
 l.divByZero_35_:
 	li	x10, 2
 # was:	li	_negate_36_, 2
-	sub	x10, x0, x10
+	sub	x11, x0, x10
 # was:	sub	_eq_R_31_, x0, _negate_36_
-	li	x11, 0
+	li	x10, 0
 # was:	li	_arg_29_, 0
-	bne	x21, x10, l.false_37_
+	bne	x21, x11, l.false_37_
 # was:	bne	_eq_L_30_, _eq_R_31_, l.false_37_
-	li	x11, 1
+	li	x10, 1
 # was:	li	_arg_29_, 1
 l.false_37_:
-	mv	x10, x11
-# was:	mv	x10, _arg_29_
+# 	mv	x10,_arg_29_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 	mv	x21, x10
 # was:	mv	_let_x2_28_, x10
 	li	x10, 3
-# was:	li	_negate_44_, 3
-	sub	x10, x0, x10
-# was:	sub	_divide_L_42_, x0, _negate_44_
+# was:	li	_divide_L_43_, 3
 	li	x11, 2
 # was:	li	_negate_45_, 2
 	sub	x11, x0, x11
-# was:	sub	_divide_R_43_, x0, _negate_45_
+# was:	sub	_divide_R_44_, x0, _negate_45_
 	beq	x11, x0, l.divByZero_46_
-# was:	beq	_divide_R_43_, x0, l.divByZero_46_
+# was:	beq	_divide_R_44_, x0, l.divByZero_46_
 	div	x18, x10, x11
-# was:	div	_eq_L_40_, _divide_L_42_, _divide_R_43_
+# was:	div	_negate_42_, _divide_L_43_, _divide_R_44_
 	j	l.divByZero_46_
 l.divByZero_46_:
+	sub	x12, x0, x18
+# was:	sub	_eq_L_40_, x0, _negate_42_
 	li	x10, 1
 # was:	li	_eq_R_41_, 1
 	li	x11, 0
 # was:	li	_arg_39_, 0
-	bne	x18, x10, l.false_47_
+	bne	x12, x10, l.false_47_
 # was:	bne	_eq_L_40_, _eq_R_41_, l.false_47_
 	li	x11, 1
 # was:	li	_arg_39_, 1

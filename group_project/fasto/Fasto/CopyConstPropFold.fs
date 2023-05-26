@@ -82,7 +82,13 @@ let rec copyConstPropFoldExp (vtable : VarTable)
         | And (e1, e2, pos) ->
             (* TODO project task 3: see above. You may inspire yourself from
                `Or` below, but that only scratches the surface of what's possible *)
-            failwith "Unimplemented copyConstPropFold for &&"
+            let e1' = copyConstPropFoldExp vtable e1
+            let e2' = copyConstPropFoldExp vtable e2
+            match (e1', e2') with
+                | (Constant (BoolVal a, _), Constant (BoolVal b, _)) ->
+                    Constant (BoolVal (a && b), pos)
+                | _ -> And (e1', e2', pos)
+
         | Constant (x,pos) -> Constant (x,pos)
         | StringLit (x,pos) -> StringLit (x,pos)
         | ArrayLit (es, t, pos) ->

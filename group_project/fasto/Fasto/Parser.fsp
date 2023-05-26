@@ -57,16 +57,12 @@ let parse_error_rich =
 %left LET IN
 %left LTH LESS DEQ EQ
 %left PLUS MINUS
+%right NEG
 %left MUL DIV
-%left NEG
 %right ARROW
 %left COMMA
 %left SEMICOLON
-%left IOTA
-%left REPLICATE
-%left SCAN
-%left FILTER
-%left MAP REDUCE
+%left MAP REDUCE FILTER SCAN REPLICATE IOTA
 %left LBRACKET RBRACKET
 %left LCURLY RCURLY
 
@@ -80,13 +76,8 @@ let parse_error_rich =
 %type <AbSyn.UntypedFunArg> FunArg
 // TODO: Task 1(b): add any new nonterminals here
 
+%type <AbSyn.UntypedDec> Decl
 //%type <AbSyn.UntypedDec list> Decls
-%type <AbSyn.UntypedDec> Decls
-//%type <AbSyn.UntypedDec list> Decl2
-
-//%type <AbSyn.UntypedDec list> Decs
-//%type <AbSyn.UntypedDec list> SingleDecl
-
 
 
 %%
@@ -163,7 +154,7 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
     //| LET ID EQ Exp IN Exp %prec letprec
     //                 { Let (Dec (fst $2, $4, $3), $6, $1) }
 
-    //| LET SingleDecl IN Exp %prec letprec { Let ($2, $4, $1) }
+    //| LET Decls IN Exp %prec letprec { Let ($2, $4, $1) }
 
     | LET ID EQ Exp IN Exp %prec letprec { Let (Dec (fst $2, $4, $3), $6, $1)}
 
@@ -172,15 +163,15 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
                      { Index (fst $1, $3, (), $2) }
 ;
 
-
-
-//Decl : SingleDecl SEMICOLON Decl { $1 :: $3 }
-//        | SingleDecl                { [$1] }
+Decl  : ID EQ Exp { Dec (fst $1, $3, $2) }
+;
+//Decls : Decl SEMICOLON Decls { $1 :: $3 }
+//      | Decl                 { $1 :: [] }  
 //;
-//
-//SingleDecl : ID EQ Exp { Dec (fst $1, $3, $2) }
-//           | ID EQ Exp COMMA SingleDecl { Dec (fst $1, $3, $2) } 
-//;
+
+//Decls : ID EQ Exp { Dec (fst $1, $3, $2) }
+//      | SEMICOLON Decls { $2 } 
+//;      
 //Decl : ID EQ Exp SEMICOLON Decl { Dec (fst $1, $3, $2), $5 }
 //    | ID EQ Exp { Dec (fst $1, $3, $2) }
     //| ID EQ Exp Decl { $4 }
@@ -190,14 +181,14 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
     //| 
 
 
-Decls : SEMICOLON ID EQ Exp Decls { Dec (fst $2, $4, $3)}
-;
+//Decls : SEMICOLON ID EQ Exp Decls { Dec (fst $2, $4, $3)}
+//;
 
-//Decl2 : Decl SEMICOLON Decl2 { $1 :: $3 }
+//Decls : Decl SEMICOLON Decl2 { $1 :: $3 }
 //      | Decl { $1 :: [] }
 //;
 
-//Decs : Decl SEMICOLON Decs { $1 :: $3 }
+//Decls : Decl SEMICOLON Decls { $1 :: $3 }
 //     | Decl                { $1 :: [] }
 //;
 
