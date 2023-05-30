@@ -22,10 +22,10 @@ f.main:
 # was:	li	_minus_R_8_, 1
 	sub	x11, x12, x11
 # was:	sub	_let_y_6_, _minus_L_7_, _minus_R_8_
-# 	mv	_mult1_L_10_,_let_n_2_
-# 	mv	_mult2_R_11_,_let_y_6_
+# 	mv	_times_L_10_,_let_n_2_
+# 	mv	_times_R_11_,_let_y_6_
 	mul	x18, x10, x11
-# was:	mul	_tmp_9_, _mult1_L_10_, _mult2_R_11_
+# was:	mul	_tmp_9_, _times_L_10_, _times_R_11_
 # 	mv	_mainres_1_,_tmp_9_
 	mv	x10, x18
 # was:	mv	x10, _mainres_1_
