@@ -13,22 +13,22 @@ f.f:
 # 	mv	_param_c_3_,x12
 # 	mv	_param_d_4_,x13
 	li	x14, 1000
-# was:	li	_mult1_L_12_, 1000
-# 	mv	_mult2_R_13_,_param_a_1_
+# was:	li	_times_L_12_, 1000
+# 	mv	_times_R_13_,_param_a_1_
 	mul	x10, x14, x10
-# was:	mul	_plus_L_10_, _mult1_L_12_, _mult2_R_13_
+# was:	mul	_plus_L_10_, _times_L_12_, _times_R_13_
 	li	x14, 100
-# was:	li	_mult1_L_14_, 100
-# 	mv	_mult2_R_15_,_param_b_2_
+# was:	li	_times_L_14_, 100
+# 	mv	_times_R_15_,_param_b_2_
 	mul	x11, x14, x11
-# was:	mul	_plus_R_11_, _mult1_L_14_, _mult2_R_15_
+# was:	mul	_plus_R_11_, _times_L_14_, _times_R_15_
 	add	x10, x10, x11
 # was:	add	_plus_L_8_, _plus_L_10_, _plus_R_11_
 	li	x11, 10
-# was:	li	_mult1_L_16_, 10
-# 	mv	_mult2_R_17_,_param_c_3_
+# was:	li	_times_L_16_, 10
+# 	mv	_times_R_17_,_param_c_3_
 	mul	x11, x11, x12
-# was:	mul	_plus_R_9_, _mult1_L_16_, _mult2_R_17_
+# was:	mul	_plus_R_9_, _times_L_16_, _times_R_17_
 	add	x10, x10, x11
 # was:	add	_plus_L_6_, _plus_L_8_, _plus_R_9_
 # 	mv	_plus_R_7_,_param_d_4_
@@ -138,10 +138,10 @@ f.main:
 	jal	p.putint
 # was:	jal	p.putint, x10
 	li	x10, 10000
-# was:	li	_mult1_L_53_, 10000
-# 	mv	_mult2_R_54_,_let_r1_44_
+# was:	li	_times_L_53_, 10000
+# 	mv	_times_R_54_,_let_r1_44_
 	mul	x10, x10, x19
-# was:	mul	_plus_L_51_, _mult1_L_53_, _mult2_R_54_
+# was:	mul	_plus_L_51_, _times_L_53_, _times_R_54_
 # 	mv	_plus_R_52_,_let_r2_47_
 	add	x10, x10, x18
 # was:	add	_mainres_43_, _plus_L_51_, _plus_R_52_

@@ -1,3 +1,0 @@
-fun bool main() =
-  let x0 = write_nl(1) in
-  write_nl(not x0)

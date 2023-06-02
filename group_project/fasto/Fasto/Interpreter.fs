@@ -287,7 +287,20 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
          a meaningful message).
   *)
   | Replicate (n, a, atype, pos) ->
-        failwith "Unimplemented interpretation of replicate"
+        let size = evalExp(n, vtab, ftab)
+        let aval = evalExp(a, vtab, ftab)
+        let atype = valueType aval
+        match (size) with
+          | IntVal s ->
+              if s >= 0
+              then ArrayVal( List.map (fun x -> aval) [0..s-1], atype )
+              else let msg = sprintf "Argument of \"replicate\" is negative: %i" s
+                   raise (MyError(msg, pos))
+          | _ -> reportWrongType "argument of \"replicate\"" Int size pos
+
+
+      
+
 
   (* TODO project task 2: `filter(p, arr)`
        pattern match the implementation of map:
