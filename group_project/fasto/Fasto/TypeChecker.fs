@@ -310,9 +310,10 @@ and checkExp  (ftab : FunTable)
     | Replicate (e_exp, el_exp, _, pos) ->
         let (e_type, e_exp_dec) = checkExp ftab vtab e_exp
         let (el_type, el_exp_dec) = checkExp ftab vtab el_exp
-        if el_type <> Int then
+        if e_type <> Int then
             reportTypeWrong "argument of replicate" Int e_type pos
         (Array e_type, Replicate (e_exp_dec, el_exp_dec, el_type, pos))
+
         //(Array e_type, Replicate (e_dec, el_dec, el_type, pos))
 
     (* TODO project task 2: Hint for `filter(f, arr)`

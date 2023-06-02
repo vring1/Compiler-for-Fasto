@@ -109,6 +109,8 @@ Params : Type ID COMMA Params
 ///////////////////////////////////////////////////////
 
 Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
+    | FALSE          { Constant (BoolVal false, $1)}
+    | TRUE           { Constant (BoolVal true, $1)}
     | CHARLIT        { Constant (CharVal (fst $1), snd $1) }
     | ID             { Var $1 }
     | STRINGLIT      { StringLit $1 }
