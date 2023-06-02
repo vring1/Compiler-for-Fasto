@@ -604,13 +604,63 @@ let rec compileExp  (e      : TypedExp)
 
 
 
-  | Replicate (_, _, _, _) ->
-        failwith "replicate in codegen"
-      //let size_reg = newReg "size" (* size of input/output array *)
-      //let arr_reg  = newReg "arr"  (* address of array *)
-      //let elem_reg = newReg "elem" (* address of current element *)
-      //let res_reg = newReg "res"
-      //let arr_code = compileExp arr_exp vtable arr_reg
+  | Replicate (n_exp, elem_type, ret_type, pos) ->
+//        failwith "replicate in codegen"
+//    C-like pseudokode for replicate
+//
+//    void* replicate(int n, void* a) 
+//    {
+//      if n < 0 then error
+//      else 
+//      {
+//        void* arr = dynalloc(n, place, void*);
+//        arr[0] = n;
+//        for (int i = 1; i < n; i++) {
+//          arr[i] = a;
+//        }
+//      }
+//    }
+// Can draw inspiration from implementation of iota
+      let arr_reg = place                               (* address of array *)
+      let size_reg = newReg "size"                      (* size of input array *)
+      let n_code = compileExp n_exp vtable size_reg     (* compile n_exp into size_reg *)
+      let safe_lab = newLab "safe"                      (* safe label, used for checking if n is >= 0 *)
+      let checksize = [ BGE (size_reg, Rzero, safe_lab) (* check if n >= 0 *)
+                      ; LA (Ra0, "m.BadSize")           (* if not, raise error *)
+                      ; J "p.RuntimeError"
+                      ; LABEL (safe_lab)
+                      ]
+
+
+                      //inspiration
+                      // ; LI (Ra0, line)                  (* if not, raise error *)
+                      // ; LA (Ra1, "m.BadSize")
+                      // ; J "p.RuntimeError"
+                      // ; LABEL (safe_lab)
+      //Now we know n>=0, so we can allocate n elements of type ret_type
+      let dynalloc_code = dynalloc (size_reg, arr_reg, ret_type)
+      //Now we need to set the first element of the array to n
+      let set_size = [ SW (size_reg, arr_reg, 0) ]
+      //Now we need to set the rest of the elements to a in a loop
+      let loop_beg = newLab "loop_beg"
+      let loop_end = newLab "loop_end"
+      let i_reg = newReg "i"
+      let loop_code = [ ADDI (arr_reg, arr_reg, 4) (* set arr_reg to address of first element instead *)
+                      ; MV (i_reg, Rzero)          (* set i_reg to 0 *)
+                      ; LABEL (loop_beg)
+                      ; BGE (i_reg, size_reg, loop_end) (* while i < size_reg, loop *)
+                      ; SW (size_reg, arr_reg, 0) (* arr[i] = a *)
+                      ; ADDI (arr_reg, arr_reg, 4) (* increment arr_reg by 4 *)
+                      ; ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
+                      ; J loop_beg
+                      ; LABEL (loop_end)
+                      ]
+      checksize @ 
+      n_code @ 
+      dynalloc_code @ 
+      set_size @ 
+      loop_code
+      
 //
       //let get_size = [ LW (size_reg, arr_reg, 0) ]
 
