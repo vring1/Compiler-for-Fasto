@@ -32,10 +32,10 @@ f.main:
 	sw	x19, -12(x2)
 	sw	x18, -8(x2)
 	addi	x2, x2, -24
-	li	x11, 6
-# was:	li	_elem_8_, 6
-	li	x10, 7
-# was:	li	_size_7_, 7
+	li	x11, 16
+# was:	li	_elem_8_, 16
+	li	x10, 4
+# was:	li	_size_7_, 4
 	bge	x10, x0, l.safe_9_
 # was:	bge	_size_7_, x0, l.safe_9_
 	la	x10, m.BadSize

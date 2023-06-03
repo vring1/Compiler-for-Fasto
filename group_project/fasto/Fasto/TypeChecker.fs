@@ -328,7 +328,22 @@ and checkExp  (ftab : FunTable)
 
 
     | Filter (f, arr_exp, _, pos) ->
-        failwith "Unimplemented type check of filter"
+        let (arr_type, arr_exp_dec) = checkExp ftab vtab arr_exp
+        let elem_type =
+            match arr_type with
+              | Array t -> t
+              | _ -> reportTypeWrongKind "second argument of filter" "array" arr_type pos
+        let (f', f_res_type, f_arg_type) =
+            match checkFunArg ftab vtab pos f with
+              | (f', res, [a1]) -> (f', res, a1)
+              | (_, res, args) ->
+                   reportArityWrong "first argument of filter" 1 (args,res) pos
+        if elem_type <> f_arg_type then
+          reportTypesDifferent "function-argument and array-element types in filter"
+                               f_arg_type elem_type pos
+        if f_res_type <> Bool then
+            reportTypeWrong "function-argument of filter" Bool f_res_type pos
+        (Array elem_type, Filter (f', arr_exp_dec, elem_type, pos))
         
 
     (* TODO project task 2: `scan(f, ne, arr)`

@@ -1,3 +1,3 @@
-Error in C:\Users\Valdemar\work\uni\ips\group_project\fasto\bin\..\tests\scan.asm line 108: Runtime exception at 0x004000dc: Load address not aligned to word boundary 0x00000006
+Error in C:\Users\Oscar\Documents\Universitet\IPS\group_project\fasto\.\bin\..\tests\scan.asm line 107: Runtime exception at 0x004000e4: address out of range 0x00000000
 
 Simulation terminated due to errors.

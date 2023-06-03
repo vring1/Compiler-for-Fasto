@@ -1,26 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Valdemar\\work\\uni\\ips\\group_project\\fasto\\Fasto\\Fasto.fsproj": {}
+    "C:\\Users\\Oscar\\Documents\\Universitet\\IPS\\group_project\\fasto\\Fasto\\Fasto.fsproj": {}
   },
   "projects": {
-    "C:\\Users\\Valdemar\\work\\uni\\ips\\group_project\\fasto\\Fasto\\Fasto.fsproj": {
+    "C:\\Users\\Oscar\\Documents\\Universitet\\IPS\\group_project\\fasto\\Fasto\\Fasto.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Valdemar\\work\\uni\\ips\\group_project\\fasto\\Fasto\\Fasto.fsproj",
+        "projectUniqueName": "C:\\Users\\Oscar\\Documents\\Universitet\\IPS\\group_project\\fasto\\Fasto\\Fasto.fsproj",
         "projectName": "Fasto",
-        "projectPath": "C:\\Users\\Valdemar\\work\\uni\\ips\\group_project\\fasto\\Fasto\\Fasto.fsproj",
-        "packagesPath": "C:\\Users\\Valdemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Valdemar\\work\\uni\\ips\\group_project\\fasto\\Fasto\\obj\\",
+        "projectPath": "C:\\Users\\Oscar\\Documents\\Universitet\\IPS\\group_project\\fasto\\Fasto\\Fasto.fsproj",
+        "packagesPath": "C:\\Users\\Oscar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Oscar\\Documents\\Universitet\\IPS\\group_project\\fasto\\Fasto\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Valdemar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Oscar\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files\\dotnet\\sdk\\7.0.203\\FSharp\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.201\\FSharp\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -62,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

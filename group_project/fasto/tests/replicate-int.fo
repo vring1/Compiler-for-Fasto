@@ -1,5 +1,5 @@
 fun int writeInt(int b) = write(b)
 
 fun [int] main() =
-  let fs = replicate(7, 6) in
+  let fs = replicate(4, 16) in
   map(writeInt, fs)

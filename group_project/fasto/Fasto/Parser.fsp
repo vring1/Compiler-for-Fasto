@@ -145,6 +145,8 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
                      { Reduce ($3, $5, $7, (), $1) }
     | LPAR Exp RPAR  { $2 }
 
+    | LBRACKET Exp RBRACKET { $2 } //POTENTIEL FORKERT - SKABER PROBLEMER I COMPREHENSION.
+
     | SCAN LPAR FunArg COMMA Exp COMMA Exp RPAR
                      { Scan ($3, $5, $7, (), $1) }
     | FILTER LPAR FunArg COMMA Exp RPAR

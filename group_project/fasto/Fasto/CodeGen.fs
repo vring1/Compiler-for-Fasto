@@ -474,6 +474,16 @@ let rec compileExp  (e      : TypedExp)
        @ loop_iota
        @ loop_footer
 
+// c-like pseudocode for map:
+//   map(f, arr) {
+//   size = arr.length;
+//   res = new Array(size);
+//   for (i = 0; i < size; i++) {
+//     res[i] = f(arr[i]);
+//   }
+//   return res;
+
+
   | Map (farg, arr_exp, elem_type, ret_type, pos) ->
       let size_reg = newReg "size" (* size of input/output array *)
       let arr_reg  = newReg "arr"  (* address of array *)
@@ -501,7 +511,9 @@ let rec compileExp  (e      : TypedExp)
              [ Load src_size (res_reg, elem_reg, 0)
              ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size)
              ]
-             @ applyFunArg(farg, [res_reg], vtable, res_reg, pos)
+             @ applyFunArg(farg, [res_reg], vtable, res_reg, pos) // f(res_reg)
+             // res_reg is now the result of f(res_reg)
+             // store res_reg in addr_reg
              @
              [ Store dst_size (res_reg, addr_reg, 0)
              ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size)
@@ -586,19 +598,17 @@ let rec compileExp  (e      : TypedExp)
   *)
 
 
-//    C-like pseudokode for replicate
+//    C-like pseudocode for replicate
 //
 //    void* replicate(int n, void* a) 
 //    {
 //      if n < 0 then error
-//      else 
-//      {
-//        void* arr = dynalloc(n, place, void*);
-//        arr[0] = n;
-//        for (int i = 1; i < n; i++) {
-//          arr[i] = a;
-//        }
+//      void* arr = dynalloc(n, place, void*);
+//      arr[0] = n;
+//      for (int i = 1; i < n; i++) {
+//        arr[i] = a;
 //      }
+//    return arr;
 //    }
 
 
@@ -667,7 +677,7 @@ let rec compileExp  (e      : TypedExp)
   *)
 
   
-  // C like pseudokode for filter
+  // C like pseudocode for filter
   //
   // void* filter(void* f, void* arr)
   // {
@@ -682,9 +692,62 @@ let rec compileExp  (e      : TypedExp)
   //  }
   //  res[0] = counter;
   //}  
+  //Map (farg, arr_exp, elem_type, ret_type, pos)
+  //filter : (a → bool) * [a] → [a]
 
-  | Filter (_, _, _, _) ->
-      failwith "Unimplemented code generation of filter"
+  //filter takes a function f of type a → bool and an array arr of type [a] and returns an array of type [a] containing all elements of arr for which f returns true. 
+  //The order of the elements in the result array is the same as in the input array. 
+  //The size of the result array is the number of elements for which f returns true. 
+  //The size of the result a is not known at compile time, 
+  //so we use dynalloc to allocate the result array.
+  | Filter (farg, arr_exp, ret_type, pos) -> //arg is a function, arr_exp is an array´
+      let size_reg = newReg "size" (* size of input/output array *)
+      let arr_reg  = newReg "arr"  (* address of array *)
+      let elem_reg = newReg "elem" (* address of current element *)
+      let res_reg = newReg "res"
+      let arr_code = compileExp arr_exp vtable arr_reg
+
+      let get_size = [ LW (size_reg, arr_reg, 0) ] //int n = arr[0];
+      let addr_reg = newReg "addrg" (* address of element in new array *)
+      let counter_reg = newReg "counter" //int counter
+      let i_reg = newReg "i" //int i
+      let init_regs = [ ADDI (i_reg, i_reg, 1) //i = 1
+                      ; ADDI (counter_reg, counter_reg, 1) //counter = 1
+                      ; ADDI (addr_reg, arr_reg, 4) //addr_reg = arr_reg + 4
+                      ]
+      let loop_beg = newLab "loop_beg"
+      let loop_end = newLab "loop_end"
+      let comparison_false = newLab "comparison_false"
+      let loop_header = [ LABEL (loop_beg)
+                        ; BGE (i_reg, size_reg, loop_end) (* while i < size_reg, loop *)
+                        ]
+      let loop_footer = [ ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
+                        ; J loop_beg
+                        ; LABEL (loop_end)
+                        ]
+      let src_size = getElemSize ret_type
+      let dst_size = getElemSize ret_type
+      let loop_code =
+             [ Load src_size (res_reg, elem_reg, 0)
+             ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size)
+             ]
+             @ applyFunArg(farg, [res_reg], vtable, res_reg, pos) // f(res_reg)
+             @ [ BEQ (res_reg, Rzero, comparison_false) (* if f(res_reg) == 0, jump to loop_footer *)
+               ; Store dst_size (res_reg, addr_reg, 0) (* res[counter] = arr[i] *)
+               ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by 4 *)
+               ; ADDI (counter_reg, counter_reg, 1) (* increment counter_reg by 1 *)
+               ; LABEL (comparison_false)
+               ]
+            
+      arr_code
+      @ get_size
+      @ dynalloc (size_reg, place, ret_type)
+      @ init_regs
+      @ loop_header
+      @ loop_footer
+      @ loop_code
+
+
 
   (* TODO project task 2: see also the comment to replicate.
         `scan(f, ne, arr)`: you can inspire yourself from the implementation of
@@ -694,7 +757,7 @@ let rec compileExp  (e      : TypedExp)
         the loop.
   *)
 
-  // C like pseudokode for scan
+  // C like pseudocode for scan
   //
   // void* scan(void* f, void* ne, void* arr)
   // {
@@ -707,45 +770,49 @@ let rec compileExp  (e      : TypedExp)
   //}
 
 
-  | Scan (binop, acc_exp, arr_exp, tp, pos) ->
-      let arr_reg  = newReg "arr"   (* address of array *)
-      let size_reg = newReg "size"  (* size of input array *)
-      let i_reg    = newReg "ind_var"   (* loop counter *)
-      let tmp_reg  = newReg "tmp"   (* several purposes *)
+  | Scan (farg, acc_exp, arr_exp, tp, pos) ->
+      let size_reg = newReg "size" (* size of input/output array *)
+      let arr_reg  = newReg "arr"  (* address of array *)
+      let elem_reg = newReg "elem" (* address of current element *)
+      let res_reg = newReg "res"
+      let arr_code = compileExp arr_exp vtable arr_reg
+
+      let get_size = [ LW (size_reg, arr_reg, 0) ] //int n = arr[0];
+      let addr_reg = newReg "addrg" (* address of element in new array *)
+      let counter_reg = newReg "counter" //int counter
+      let i_reg = newReg "i" //int i
+      let init_regs = [ ADDI (i_reg, i_reg, 1) //i = 1
+                      ; ADDI (counter_reg, counter_reg, 1) //counter = 1
+                      ; ADDI (addr_reg, arr_reg, 4) //addr_reg = arr_reg + 4
+                      ]
       let loop_beg = newLab "loop_beg"
       let loop_end = newLab "loop_end"
-
-      let arr_code = compileExp arr_exp vtable arr_reg
-      let header1 = [ LW(size_reg, arr_reg, 0) ]
-
-      (* Compile initial value into place (will be updated below) *)
-      let acc_code = compileExp acc_exp vtable place
-
-      (* Set arr_reg to address of first element instead. *)
-      (* Set i_reg to 0. While i < size_reg, loop. *)
+      let loop_header = [ LABEL (loop_beg)
+                        ; BGE (i_reg, size_reg, loop_end) (* while i < size_reg, loop - for (int i = 1; i < n; i++)*)
+                        ]
+      let loop_footer = [ ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
+                        ; J loop_beg
+                        ; LABEL (loop_end)
+                        ]
+      let src_size = getElemSize tp
+      let dst_size = getElemSize tp
       let loop_code =
-              [ ADDI (arr_reg, arr_reg, 4)
-              ; MV (i_reg, Rzero)
-              ; LABEL (loop_beg)
-              ; BGE (i_reg, size_reg, loop_end)
-              ]
-      (* Load arr[i] into tmp_reg *)
-      let elem_size = getElemSize tp
-      let load_code =
-        [ Load elem_size (tmp_reg, arr_reg, 0)
-        ; ADDI (arr_reg, arr_reg, elemSizeToInt elem_size)
-        ]
-      (* place := binop(place, tmp_reg) *)
-      let apply_code =
-            applyFunArg(binop, [place; tmp_reg], vtable, place, pos)
-
-      arr_code @ header1 @ acc_code @ loop_code @ load_code @ apply_code @
-         [ ADDI(i_reg, i_reg, 1)
-         ; J loop_beg
-         ; LABEL loop_end
-         ]
-
-      
+             [ Load src_size (res_reg, elem_reg, 0)
+             ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size)
+             ]
+             @ applyFunArg(farg, [res_reg], vtable, res_reg, pos) // f(res_reg)
+             @ [ Store dst_size (res_reg, addr_reg, 0) (* res[counter] = arr[i] *)
+               ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by 4 *)
+               ; ADDI (counter_reg, counter_reg, 1) (* increment counter_reg by 1 *)
+               ]
+            
+      arr_code
+      @ get_size
+      @ dynalloc (size_reg, place, tp)
+      @ init_regs
+      @ loop_header
+      @ loop_footer
+      @ loop_code
 
 
 and applyFunArg ( ff     : TypedFunArg
