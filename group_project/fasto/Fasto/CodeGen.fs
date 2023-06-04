@@ -168,7 +168,7 @@ let rec compileExp  (e      : TypedExp)
       [ LI (place, n) ] (* assembler will generate appropriate
                            instruction sequence for any value n *)
   | Constant (BoolVal p, _) ->
-      (* TODO project task 1: represent `true`/`false` values as `1`/`0` *)
+      (* TODO project task 1: represent `true`/`false` values as `1`/`0` *) //DONE
       [ LI (place, if p then 1 else 0) ]
   | Constant (CharVal c, pos) -> [ LI (place, int c) ]
 
@@ -236,7 +236,7 @@ let rec compileExp  (e      : TypedExp)
      For `Divide`, you may ignore division by zero for a quick first
      version, but remember to come back and clean it up later.
      `Not` and `Negate` are simpler; you can use `XORI` for `Not`
-  *)
+  *) //DONE
   | Times (e1: Exp<Type>, e2, pos) ->
       let t1 = newReg "times_L"
       let t2 = newReg "times_R"
@@ -572,9 +572,9 @@ let rec compileExp  (e      : TypedExp)
          ]
 
   (* TODO project task 2:
-        `replicate (n, a)`
-        `filter (f, arr)`
-        `scan (f, ne, arr)`
+        `replicate (n, a)` //DONE
+        `filter (f, arr)`  //MEM ISSUE
+        `scan (f, ne, arr)`//MEM ISSUE
      Look in `AbSyn.fs` for the shape of expression constructors
         `Replicate`, `Filter`, `Scan`.
      General Hint: write down on a piece of paper the C-like pseudocode
@@ -610,10 +610,6 @@ let rec compileExp  (e      : TypedExp)
 //      }
 //    return arr;
 //    }
-
-
-
-
   | Replicate (n_exp, elem_exp, ret_type, pos) ->
       let arr_reg = newReg "arr"                        (* address of array *)
       let size_reg = newReg "size"      
@@ -655,9 +651,6 @@ let rec compileExp  (e      : TypedExp)
       start_addr @
       set_first_elem @ 
       loop_code 
-      
-//
-      //let get_size = [ LW (size_reg, arr_reg, 0) ]
 
 
   (* TODO project task 2: see also the comment to replicate.
@@ -692,14 +685,6 @@ let rec compileExp  (e      : TypedExp)
   //  }
   //  res[0] = counter;
   //}  
-  //Map (farg, arr_exp, elem_type, ret_type, pos)
-  //filter : (a → bool) * [a] → [a]
-
-  //filter takes a function f of type a → bool and an array arr of type [a] and returns an array of type [a] containing all elements of arr for which f returns true. 
-  //The order of the elements in the result array is the same as in the input array. 
-  //The size of the result array is the number of elements for which f returns true. 
-  //The size of the result a is not known at compile time, 
-  //so we use dynalloc to allocate the result array.
   | Filter (farg, arr_exp, ret_type, pos) -> //arg is a function, arr_exp is an array´
       let size_reg = newReg "size" (* size of input/output array *)
       let arr_reg  = newReg "arr"  (* address of array *)
@@ -768,8 +753,6 @@ let rec compileExp  (e      : TypedExp)
   //    res[i] = f(res[i-1], arr[i]);
   //  }
   //}
-
-
   | Scan (farg, acc_exp, arr_exp, tp, pos) ->
       let size_reg = newReg "size" (* size of input/output array *)
       let arr_reg  = newReg "arr"  (* address of array *)

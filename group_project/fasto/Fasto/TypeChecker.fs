@@ -128,7 +128,7 @@ and checkExp  (ftab : FunTable)
     (* TODO project task 1:
         Implement by pattern matching Plus/Minus above.
         See `AbSyn.fs` for the expression constructors of `Times`, ...
-    *)
+    *) // DONE
     | Times (e1, e2, pos) ->
         let (e1_dec, e2_dec) = checkBinOp ftab vtab (pos, Int, e1, e2)
         (Int, Times (e1_dec, e2_dec, pos))
@@ -296,7 +296,9 @@ and checkExp  (ftab : FunTable)
 
     (* TODO project task 2:
         See `AbSyn.fs` for the expression constructors of
-        `Replicate`, `Filter`, `Scan`.
+        `Replicate`, //DONE
+        `Filter`,    //DONE
+        `Scan`.      //DONE
 
         Hints for `replicate(n, a)`:
         - recursively type check `n` and `a`
@@ -304,9 +306,7 @@ and checkExp  (ftab : FunTable)
         - assuming `a` is of type `t` the result type
           of replicate is `[t]`
         - e must be a scalar or array type
-    *)
-
-    //type t
+    *) // DONE
     | Replicate (e_exp, el_exp, _, pos) ->
         let (e_type, e_exp_dec) = checkExp ftab vtab e_exp
         let (el_type, el_exp_dec) = checkExp ftab vtab el_exp
@@ -324,9 +324,7 @@ and checkExp  (ftab : FunTable)
             - `f` has type `ta -> Bool`
             - `arr` should be of type `[ta]`
             - the result of filter should have type `[tb]`
-    *)
-
-
+    *) // DONE
     | Filter (f, arr_exp, _, pos) ->
         let (arr_type, arr_exp_dec) = checkExp ftab vtab arr_exp
         let elem_type =
@@ -344,14 +342,13 @@ and checkExp  (ftab : FunTable)
         if f_res_type <> Bool then
             reportTypeWrong "function-argument of filter" Bool f_res_type pos
         (Array elem_type, Filter (f', arr_exp_dec, elem_type, pos))
-        
-
+ 
     (* TODO project task 2: `scan(f, ne, arr)`
         Hint: Implementation is very similar to `reduce(f, ne, arr)`.
               (The difference between `scan` and `reduce` is that
               scan's return type is the same as the type of `arr`,
               while reduce's return type is that of an element of `arr`).
-    *)
+    *) // DONE
     | Scan (f, e_exp, arr_exp, _, pos) ->
         let (e_type  , e_dec  ) = checkExp ftab vtab e_exp
         let (arr_type, arr_dec) = checkExp ftab vtab arr_exp

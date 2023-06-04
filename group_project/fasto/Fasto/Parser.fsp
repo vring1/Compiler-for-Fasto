@@ -30,8 +30,10 @@ let parse_error_rich =
 //       *, /, ~, not, &&, ||
 //     - generalize the syntax of let-expressions to allow
 //       multiple variable declarations
+//       DONE
 //
 //   TODO: project task 2: replicate, filter, scan 
+//       DONE
 //
 //   TODO: project task 4: array comprehension
 //////////////////////////////////////////////////////////////////////
@@ -107,6 +109,7 @@ Params : Type ID COMMA Params
 // TODO: project tasks 1,2,4: 
 //       add grammar rules for the new expressions
 ///////////////////////////////////////////////////////
+// DONE
 
 Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
     | FALSE          { Constant (BoolVal false, $1)}
@@ -145,13 +148,18 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
                      { Reduce ($3, $5, $7, (), $1) }
     | LPAR Exp RPAR  { $2 }
 
-    | LBRACKET Exp RBRACKET { $2 } //POTENTIEL FORKERT - SKABER PROBLEMER I COMPREHENSION.
+//TODO: BRACKETS - still not working with implementation below
+     | LBRACKET Exps RBRACKET
+                          { ArrayLit ($2, (), $1) }
+     
+
 
     | SCAN LPAR FunArg COMMA Exp COMMA Exp RPAR
                      { Scan ($3, $5, $7, (), $1) }
     | FILTER LPAR FunArg COMMA Exp RPAR
                      { Filter ($3, $5, (), $1) }
     // TODO: task 1(b): replace this with a more general production
+    // DONE
     //| LET ID EQ Exp IN Exp %prec letprec
     //                 { Let (Dec (fst $2, $4, $3), $6, $1) }
 

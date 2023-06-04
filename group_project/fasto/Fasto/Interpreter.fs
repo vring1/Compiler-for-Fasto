@@ -145,7 +145,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
         For `And`/`Or`: make sure to implement the short-circuit semantics,
         e.g., `And (e1, e2, pos)` should not evaluate `e2` if `e1` already
               evaluates to false.
-  *)
+  *) //DONE
   | Times(e1, e2, pos) ->
       let res1   = evalExp(e1, vtab, ftab)
       let res2   = evalExp(e2, vtab, ftab)
@@ -285,7 +285,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
        - If so then create an array containing `n` replicas of
          the value of `a`; otherwise raise an error (containing
          a meaningful message).
-  *)
+  *) //DONE
   | Replicate (n, a, atype, pos) ->
         let size = evalExp(n, vtab, ftab)
         let aval = evalExp(a, vtab, ftab)
@@ -309,20 +309,32 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
        - use F# `List.filter` to keep only the elements `a` of `arr` which succeed
          under predicate `p`, i.e., `p(a) = true`;
        - create an `ArrayVal` from the (list) result of the previous step.
-  *)
-  | Filter (_, _, _, _) ->
-        failwith "Unimplemented interpretation of filter"
+  *) //DONE
+  | Filter (farg, arrexp, t, pos) ->
+        let arr = evalExp(arrexp, vtab, ftab)
+        match arr with
+        | ArrayVal (lst, tp1) ->
+            let rec filter_helper lst =
+                match lst with
+                | [] -> []
+                | x :: xs ->
+                    let result = evalFunArg (farg, vtab, ftab, pos, [x])
+                    if result = BoolVal true
+                    then x :: filter_helper xs
+                    else filter_helper xs
+            let filter_result = filter_helper lst
+            ArrayVal (filter_result, tp1) //tp1 is the type of the array
+        | otherwise -> reportNonArray "2nd argument of \"filter\"" arr pos
 
   (* TODO project task 2: `scan(f, ne, arr)`
      Implementation similar to reduce, except that it produces an array
      of the same type and length to the input array `arr`.
-  *)
+  *) //DONE
   | Scan (farg, ne, arrexp, tp, pos) ->
-        let farg_ret_type = rtpFunArg farg ftab pos
-        let arr = evalExp(arrexp, vtab, ftab) 
-        let nel = evalExp (ne, vtab, ftab)
+        let arr = evalExp(arrexp, vtab, ftab)  
+        let nel = evalExp (ne, vtab, ftab) //initial value for the accumulator
         match arr with
-        | ArrayVal (lst, tp1) ->
+        | ArrayVal (lst, tp1) -> //tp1 is the type of the array
             let initial_acc = nel
             let rec scan_helper acc lst =
                 match lst with
@@ -332,7 +344,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
                     let new_acc = result
                     let rest = scan_helper new_acc xs
                     new_acc :: rest
-            let scan_result = initial_acc :: scan_helper initial_acc lst
+            let scan_result = scan_helper initial_acc lst
             ArrayVal (scan_result, tp1)
         | _ -> reportNonArray "3rd argument of \"scan\"" arr pos
 
