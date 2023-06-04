@@ -769,15 +769,17 @@ let rec compileExp  (e      : TypedExp)
   //  }
   //}
 
-
+  //binop, acc_exp, arr_exp, tp, pos
   | Scan (farg, acc_exp, arr_exp, tp, pos) ->
       let size_reg = newReg "size" (* size of input/output array *)
       let arr_reg  = newReg "arr"  (* address of array *)
       let elem_reg = newReg "elem" (* address of current element *)
       let res_reg = newReg "res"
       let arr_code = compileExp arr_exp vtable arr_reg
-
+      //let acc_code = compileExp acc_exp vtable elem_reg // lets go
       let get_size = [ LW (size_reg, arr_reg, 0) ] //int n = arr[0];
+
+      let set_first_elem = [ SW (size_reg, arr_reg, 0) ] //lets go
       let addr_reg = newReg "addrg" (* address of element in new array *)
       let counter_reg = newReg "counter" //int counter
       let i_reg = newReg "i" //int i
@@ -805,14 +807,15 @@ let rec compileExp  (e      : TypedExp)
                ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by 4 *)
                ; ADDI (counter_reg, counter_reg, 1) (* increment counter_reg by 1 *)
                ]
-            
+      //acc_code   //lets go ogsar   
       arr_code
       @ get_size
       @ dynalloc (size_reg, place, tp)
       @ init_regs
+      @ set_first_elem
       @ loop_header
-      @ loop_footer
       @ loop_code
+      @ loop_footer
 
 
 and applyFunArg ( ff     : TypedFunArg
