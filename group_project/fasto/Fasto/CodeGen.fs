@@ -639,7 +639,7 @@ let rec compileExp  (e      : TypedExp)
                       ; LABEL (loop_beg)
                       ; BGE (i_reg, size_reg, loop_end) (* while i < size_reg, loop *)
                       ; Store(getElemSize ret_type) (elem_reg, arr_reg, 0) (* arr[i] = a *)
-                      ; ADDI (arr_reg, arr_reg, type_size) (* increment arr_reg by 4 *)
+                      ; ADDI (arr_reg, arr_reg, type_size) (* increment arr_reg by elem_size *)
                       ; ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
                       ; J loop_beg
                       ; LABEL (loop_end)
