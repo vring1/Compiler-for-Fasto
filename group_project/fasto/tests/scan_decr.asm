@@ -4,17 +4,17 @@
 l.stop:
 	li	x17, 10
 	ecall
-# Function incr
-f.incr:
+# Function decr
+f.decr:
 	sw	x1, -4(x2)
 	addi	x2, x2, -4
 # 	mv	_param_a_1_,x10
 # 	mv	_param_b_2_,x11
-# 	mv	_plus_L_4_,_param_a_1_
-# 	mv	_plus_R_5_,_param_b_2_
-	add	x10, x10, x11
-# was:	add	_incrres_3_, _plus_L_4_, _plus_R_5_
-# 	mv	x10,_incrres_3_
+# 	mv	_minus_L_4_,_param_a_1_
+# 	mv	_minus_R_5_,_param_b_2_
+	sub	x10, x10, x11
+# was:	sub	_decrres_3_, _minus_L_4_, _minus_R_5_
+# 	mv	x10,_decrres_3_
 	addi	x2, x2, 4
 	lw	x1, -4(x2)
 	jr	x1
@@ -46,8 +46,8 @@ f.main:
 	sw	x19, -12(x2)
 	sw	x18, -8(x2)
 	addi	x2, x2, -24
-	li	x13, 3
-# was:	li	_size_11_, 3
+	li	x13, 5
+# was:	li	_size_11_, 5
 	mv	x11, x3
 # was:	mv	_let_a_10_, x3
 	slli	x12, x13, 2
@@ -60,8 +60,20 @@ f.main:
 # was:	sw	_size_11_, 0(_let_a_10_)
 	addi	x12, x11, 4
 # was:	addi	_addr_12_, _let_a_10_, 4
-	li	x13, 1
-# was:	li	_tmp_13_, 1
+	li	x13, 5
+# was:	li	_tmp_13_, 5
+	sw	x13, 0(x12)
+# was:	sw	_tmp_13_, 0(_addr_12_)
+	addi	x12, x12, 4
+# was:	addi	_addr_12_, _addr_12_, 4
+	li	x13, 4
+# was:	li	_tmp_13_, 4
+	sw	x13, 0(x12)
+# was:	sw	_tmp_13_, 0(_addr_12_)
+	addi	x12, x12, 4
+# was:	addi	_addr_12_, _addr_12_, 4
+	li	x13, 3
+# was:	li	_tmp_13_, 3
 	sw	x13, 0(x12)
 # was:	sw	_tmp_13_, 0(_addr_12_)
 	addi	x12, x12, 4
@@ -72,8 +84,8 @@ f.main:
 # was:	sw	_tmp_13_, 0(_addr_12_)
 	addi	x12, x12, 4
 # was:	addi	_addr_12_, _addr_12_, 4
-	li	x13, 3
-# was:	li	_tmp_13_, 3
+	li	x13, 1
+# was:	li	_tmp_13_, 1
 	sw	x13, 0(x12)
 # was:	sw	_tmp_13_, 0(_addr_12_)
 	addi	x12, x12, 4
@@ -106,8 +118,8 @@ l.loop_beg_24_:
 # was:	addi	_elem_18_, _elem_18_, 4
 # 	mv	x10,_tmp_22_
 # 	mv	x11,_res_19_
-	jal	f.incr
-# was:	jal	f.incr, x10 x11
+	jal	f.decr
+# was:	jal	f.decr, x10 x11
 # 	mv	_tmp_26_,x10
 # 	mv	_res2_20_,_tmp_26_
 	sw	x10, 0(x21)

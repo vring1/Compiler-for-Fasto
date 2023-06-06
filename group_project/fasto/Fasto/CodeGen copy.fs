@@ -574,7 +574,7 @@ let rec compileExp  (e      : TypedExp)
   (* TODO project task 2:
         `replicate (n, a)` //DONE
         `filter (f, arr)`  //DONE
-        `scan (f, ne, arr)`//DONE
+        `scan (f, ne, arr)`//DOES NOT APPLY FUNCTION.
      Look in `AbSyn.fs` for the shape of expression constructors
         `Replicate`, `Filter`, `Scan`.
      General Hint: write down on a piece of paper the C-like pseudocode
@@ -765,13 +765,13 @@ let rec compileExp  (e      : TypedExp)
   //  }
   //}
 
-
+  //binop, acc_exp, arr_exp, tp, pos
   | Scan (binop, acc_exp, arr_exp, tp, pos) ->
       let size_reg = newReg "size" (* size of input array. will be used to dynalloc, as output size is not known before running *)
       let arr_reg  = newReg "arr"  (* address of array *)
       let elem_reg = newReg "elem" (* address of current element *)
-      let res_reg = newReg "res"   (* value loaded *)
-      let res_reg2  = newReg "res2" (* value stored *)
+      let res_reg = newReg "res"   (* value to be stored*)
+      let res_reg2  = newReg "res2" (* boolean result of applyfunarg*)
       let addr_reg = newReg "addrg" (* address of element in new array *)
       let tmp_reg = newReg "tmp" (* address of element in new array *)
       let i_reg = newReg "i" (* i for looping through input array *)
@@ -796,6 +796,8 @@ let rec compileExp  (e      : TypedExp)
 
       let loop_filter = [
                         Load src_size (res_reg, elem_reg, 0)  (* load elem_reg from addr_reg *)
+                        //load the value of res[i-1] into tmp_reg
+                        ; Load dst_size (tmp_reg, addr_reg, -4) (* load elem_reg from addr_reg *)
                         ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size) (* increment elem_reg by elem_size *)
                         ]
                         @ applyFunArg(binop, [tmp_reg; res_reg], vtable, res_reg2, pos)  (* apply f to elem_reg, store result in addr_reg *)
@@ -807,7 +809,6 @@ let rec compileExp  (e      : TypedExp)
 
       let loop_footer = [
                         ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
-                        ; Load dst_size (tmp_reg, addr_reg, -4) (* store previous value in tmp. done at this stage to avoid the size element *)
                         ; J loop_beg
                         ; LABEL (loop_end)
                         ]

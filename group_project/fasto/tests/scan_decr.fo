@@ -1,0 +1,8 @@
+fun int decr(int a, int b) = a - b
+
+fun int writeInt(int n) = write(n)
+
+fun [int] main() =
+  let a = {5, 4, 3, 2, 1} in
+  let b = scan(decr, 0, a) in
+  map(writeInt, b)
