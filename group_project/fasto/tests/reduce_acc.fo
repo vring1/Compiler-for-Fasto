@@ -1,0 +1,5 @@
+fun int mul(int a, int b) = a * b
+
+fun int main() =
+  let n = reduce(mul, 2, {1, 2, 3}) in
+  write(n)

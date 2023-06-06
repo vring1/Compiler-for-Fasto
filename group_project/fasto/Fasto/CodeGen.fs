@@ -778,6 +778,7 @@ let rec compileExp  (e      : TypedExp)
       let loop_beg = newLab "loop_beg"
       let loop_end = newLab "loop_end"
 
+      let acc_code = compileExp acc_exp vtable res_reg
       let arr_code = compileExp arr_exp vtable arr_reg
 
       let init = [ ADDI (addr_reg, place, 4)   (* set addr_reg to address of first element instead *)
@@ -798,11 +799,12 @@ let rec compileExp  (e      : TypedExp)
                         Load src_size (res_reg, elem_reg, 0)  (* load elem_reg from addr_reg *)
                         ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size) (* increment elem_reg by elem_size *)
                         ]
-                        @ applyFunArg(binop, [tmp_reg; res_reg], vtable, res_reg2, pos)  (* apply f to elem_reg, store result in addr_reg *)
+                        //need to account for acc_exp
+                        @ applyFunArg(binop, [res_reg; res_reg2], vtable, res_reg2, pos)  (* apply f to elem_reg, store result in res_reg2 *)
                         @ 
                         [
-                        Store dst_size (res_reg2, addr_reg, 0)  (* store elem_reg in addr_reg *)
-                        ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment res_reg by elem_size *)
+                        Store dst_size (res_reg2, addr_reg, 0) (* store res_reg2 in addr_reg *)
+                        ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by elem_size *)
                         ]
 
       let loop_footer = [
@@ -812,12 +814,13 @@ let rec compileExp  (e      : TypedExp)
                         ; LABEL (loop_end)
                         ]
 
-      let set_size = [ SW (size_reg, place, 0) ] (* set size of output array to counter_reg *)
+      let set_size = [ SW (size_reg, place, 0) ] (* set size of output array to size_reg *)
 
       arr_code
       @ get_size
       @ dynalloc (size_reg, place, tp)
       @ init
+      @ acc_code
       @ loop_header
       @ loop_filter
       @ loop_footer
