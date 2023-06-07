@@ -1,3 +1,6 @@
+//Always takes the first element of the accumulator. 
+//This could be fixed (i.e. scan would return what would be expected for an array) by looping through the accumulator array, 
+//but this was not necessary to prove the point of the test.
 fun [char] concat([char] x, [char] y) = {x[0],y[0]}
 
 fun [char] writeChar([char] n) = write(n)

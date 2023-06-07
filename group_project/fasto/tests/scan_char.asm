@@ -36,8 +36,8 @@ f.concat:
 	bge	x14, x0, l.nonneg_12_
 # was:	bge	_arr_ind_8_, x0, l.nonneg_12_
 l.error_11_:
-	li	x10, 1
-# was:	li	x10, 1
+	li	x10, 4
+# was:	li	x10, 4
 	la	x11, m.BadIndex
 # was:	la	x11, m.BadIndex
 	j	p.RuntimeError
@@ -61,8 +61,8 @@ l.nonneg_12_:
 	bge	x14, x0, l.nonneg_17_
 # was:	bge	_arr_ind_13_, x0, l.nonneg_17_
 l.error_16_:
-	li	x10, 1
-# was:	li	x10, 1
+	li	x10, 4
+# was:	li	x10, 4
 	la	x11, m.BadIndex
 # was:	la	x11, m.BadIndex
 	j	p.RuntimeError

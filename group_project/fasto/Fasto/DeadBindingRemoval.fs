@@ -68,13 +68,13 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
                         you need to record it in a new symbol table.
                   - 3rd element of the tuple: should be the optimised expression.
             *)
-            let (ios, uses, _) = removeDeadBindingsInExp (Var (name, pos))
             (
-                ios, 
-                SymTab.bind name () uses, 
+                false, 
+                //(SymTab.empty()) results in errors when running the test cases
+                recordUse name (SymTab.empty()),
                 Var (name, pos)
             )
-            //failwith "Unimplemented removeDeadBindingsInExp for Var"
+            
         | Plus (x, y, pos) ->
             let (xios, xuses, x') = removeDeadBindingsInExp x
             let (yios, yuses, y') = removeDeadBindingsInExp y
@@ -124,11 +124,11 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
                         expression `e` and to propagate its results (in addition
                         to recording the use of `name`).
             *)
-            let (ios, uses, _) = removeDeadBindingsInExp (Index (name, e, t, pos))
+            let (ios, uses, e') = removeDeadBindingsInExp (e)
             (
                 ios, 
-                SymTab.bind name () uses, 
-                Index (name, e, t, pos)
+                recordUse name (SymTab.empty()), 
+                Index (name, e', t, pos) 
             )
             //failwith "Unimplemented removeDeadBindingsInExp for Index"
 
@@ -158,15 +158,16 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
             *)
             let (eio, euses, e') = removeDeadBindingsInExp e
             let (bio, buses, body') = removeDeadBindingsInExp body
-            let (io, uses) = 
-                if SymTab.lookup name buses = None && eio = false then (bio, buses) 
-                else (true, SymTab.bind name () buses)
-            (
-                io,
-                uses,
-                if io = false then body' 
-                else Let (Dec (name, e', decpos), body', pos)
-            )
+            if ((isUsed name buses) || eio) then
+                (eio || bio,
+                SymTab.combine euses (SymTab.remove name buses),
+                Let (Dec (name, e', decpos), body', pos)
+                )
+            else 
+                (bio,
+                buses,
+                body'
+                )
 
         | Iota (e, pos) ->
             let (io, uses, e') = removeDeadBindingsInExp e
