@@ -814,7 +814,7 @@ let rec compileExp  (e      : TypedExp)
 
       let loop_footer = [
                         ADDI (i_reg, i_reg, 1) (* increment i_reg by 1 *)
-                        ; Load dst_size (tmp_reg, addr_reg, -4) (* store previous value in tmp. done at this stage to avoid the size element *)
+                        ; Load dst_size (tmp_reg, addr_reg, -elemSizeToInt src_size) (* store previous value in tmp. done at this stage to avoid the size element *)
                         ; J loop_beg
                         ; LABEL (loop_end)
                         ]

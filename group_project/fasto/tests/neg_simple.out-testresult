@@ -1,0 +1,1 @@
+./bin/runtests.sh: line 140: ./bin/../bin/fasto.sh: Permission denied
