@@ -99,15 +99,15 @@ l.false_27_:
 	li	x10, 3
 # was:	li	_divide_L_32_, 3
 	li	x11, 2
-# was:	li	_negate_34_, 2
+# was:	li	_negate_35_, 2
 	sub	x11, x0, x11
-# was:	sub	_divide_R_33_, x0, _negate_34_
-	beq	x11, x0, l.divByZero_35_
-# was:	beq	_divide_R_33_, x0, l.divByZero_35_
+# was:	sub	_divide_R_33_, x0, _negate_35_
+	beq	x11, x0, l.divByZero_34_
+# was:	beq	_divide_R_33_, x0, l.divByZero_34_
 	div	x21, x10, x11
 # was:	div	_eq_L_30_, _divide_L_32_, _divide_R_33_
-	j	l.divByZero_35_
-l.divByZero_35_:
+	j	l.divByZero_34_
+l.divByZero_34_:
 	li	x10, 2
 # was:	li	_negate_36_, 2
 	sub	x11, x0, x10
@@ -127,15 +127,15 @@ l.false_37_:
 	li	x10, 3
 # was:	li	_divide_L_43_, 3
 	li	x11, 2
-# was:	li	_negate_45_, 2
+# was:	li	_negate_46_, 2
 	sub	x11, x0, x11
-# was:	sub	_divide_R_44_, x0, _negate_45_
-	beq	x11, x0, l.divByZero_46_
-# was:	beq	_divide_R_44_, x0, l.divByZero_46_
+# was:	sub	_divide_R_44_, x0, _negate_46_
+	beq	x11, x0, l.divByZero_45_
+# was:	beq	_divide_R_44_, x0, l.divByZero_45_
 	div	x18, x10, x11
 # was:	div	_negate_42_, _divide_L_43_, _divide_R_44_
-	j	l.divByZero_46_
-l.divByZero_46_:
+	j	l.divByZero_45_
+l.divByZero_45_:
 	sub	x12, x0, x18
 # was:	sub	_eq_L_40_, x0, _negate_42_
 	li	x10, 1

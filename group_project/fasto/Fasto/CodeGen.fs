@@ -247,15 +247,20 @@ let rec compileExp  (e      : TypedExp)
   | Divide (e1, e2, pos) ->
       let t1 = newReg "divide_L"
       let t2 = newReg "divide_R"
+      let divByZero = newLab "divByZero"
       let code1 = compileExp e1 vtable t1
       let code2 = compileExp e2 vtable t2
-      //check if we are dividing by zero
-      let divByZero = newLab "divByZero"
-      let code3 = [BEQ (t2, Rzero, divByZero)]
-      let code4 = [DIV (place,t1,t2)]
-      let code5 = [J divByZero]
-      let code6 = [LABEL divByZero]
-      code1 @ code2 @ code3 @ code4 @ code5 @ code6
+      let div = [ BEQ (t2, Rzero, divByZero)
+                ; DIV (place,t1,t2)
+                ; J divByZero
+                ; LABEL divByZero ]
+
+      // let code3 = [BEQ (t2, Rzero, divByZero)]
+      // let code4 = [DIV (place,t1,t2)]
+      // let code5 = [J divByZero]
+      // let code6 = [LABEL divByZero]
+      // code1 @ code2 @ code3 @ code4 @ code5 @ code6
+      code1 @ code2 @ div
 
   | Not (e1, pos) ->
       let t1 = newReg "not"
@@ -796,14 +801,14 @@ let rec compileExp  (e      : TypedExp)
                         ]
 
       let loop_filter = [
-                        Load src_size (res_reg, elem_reg, 0)  (* load elem_reg from addr_reg *)
+                        Load src_size (res_reg2, elem_reg, 0)  (* load elem_reg from addr_reg *)
                         ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size) (* increment elem_reg by elem_size *)
                         ]
                         //need to account for acc_exp
-                        @ applyFunArg(binop, [res_reg; res_reg2], vtable, res_reg2, pos)  (* apply f to elem_reg, store result in res_reg2 *)
+                        @ applyFunArg(binop, [res_reg; res_reg2], vtable, res_reg, pos)  (* apply f to elem_reg, store result in res_reg2 *)
                         @ 
                         [
-                        Store dst_size (res_reg2, addr_reg, 0) (* store res_reg2 in addr_reg *)
+                        Store dst_size (res_reg, addr_reg, 0) (* store res_reg2 in addr_reg *)
                         ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by elem_size *)
                         ]
 

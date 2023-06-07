@@ -102,17 +102,18 @@ f.main:
 l.loop_beg_24_:
 	bge	x21, x19, l.loop_end_25_
 # was:	bge	_i_23_, _size_16_, l.loop_end_25_
-	lw	x10, 0(x22)
-# was:	lw	_res_19_, 0(_elem_18_)
+	lw	x11, 0(x22)
+# was:	lw	_res2_20_, 0(_elem_18_)
 	addi	x22, x22, 4
 # was:	addi	_elem_18_, _elem_18_, 4
 # 	mv	x10,_res_19_
+# 	mv	x11,_res2_20_
 	jal	f.incr
-# was:	jal	f.incr, x10
+# was:	jal	f.incr, x10 x11
 # 	mv	_tmp_26_,x10
-# 	mv	_res2_20_,_tmp_26_
+# 	mv	_res_19_,_tmp_26_
 	sw	x10, 0(x20)
-# was:	sw	_res2_20_, 0(_addrg_21_)
+# was:	sw	_res_19_, 0(_addrg_21_)
 	addi	x20, x20, 4
 # was:	addi	_addrg_21_, _addrg_21_, 4
 	addi	x21, x21, 1
