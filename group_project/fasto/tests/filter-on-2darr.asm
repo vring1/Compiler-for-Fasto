@@ -145,32 +145,34 @@ l.loop_end_25_:
 f.even:
 	sw	x1, -4(x2)
 	addi	x2, x2, -4
-	mv	x11, x10
-# was:	mv	_param_a_28_, x10
+# 	mv	_param_a_28_,x10
 # 	mv	_divide_L_34_,_param_a_28_
-	li	x10, 2
+	li	x11, 2
 # was:	li	_divide_R_35_, 2
-	beq	x10, x0, l.divByZero_36_
+	beq	x11, x0, l.divByZero_36_
 # was:	beq	_divide_R_35_, x0, l.divByZero_36_
-	div	x12, x11, x10
+	div	x12, x10, x11
 # was:	div	_times_L_32_, _divide_L_34_, _divide_R_35_
-	j	l.divByZero_36_
+	j	l.divLegal_37_
 l.divByZero_36_:
-	li	x10, 2
+	la	x11, m.DivZero
+# was:	la	x11, m.DivZero
+	j	p.RuntimeError
+l.divLegal_37_:
+	li	x11, 2
 # was:	li	_times_R_33_, 2
-	mul	x10, x12, x10
+	mul	x11, x12, x11
 # was:	mul	_eq_L_30_, _times_L_32_, _times_R_33_
-	mv	x12, x11
+	mv	x12, x10
 # was:	mv	_eq_R_31_, _param_a_28_
-	li	x11, 0
+	li	x10, 0
 # was:	li	_evenres_29_, 0
-	bne	x10, x12, l.false_37_
-# was:	bne	_eq_L_30_, _eq_R_31_, l.false_37_
-	li	x11, 1
+	bne	x11, x12, l.false_38_
+# was:	bne	_eq_L_30_, _eq_R_31_, l.false_38_
+	li	x10, 1
 # was:	li	_evenres_29_, 1
-l.false_37_:
-	mv	x10, x11
-# was:	mv	x10, _evenres_29_
+l.false_38_:
+# 	mv	x10,_evenres_29_
 	addi	x2, x2, 4
 	lw	x1, -4(x2)
 	jr	x1
@@ -187,197 +189,197 @@ f.main:
 	addi	x2, x2, -32
 	jal	p.getint
 # was:	jal	p.getint, 
-# 	mv	_let_n_39_,x10
+# 	mv	_let_n_40_,x10
 	mv	x11, x10
-# was:	mv	_size_45_, _let_n_39_
-	bge	x11, x0, l.safe_46_
-# was:	bge	_size_45_, x0, l.safe_46_
+# was:	mv	_size_46_, _let_n_40_
+	bge	x11, x0, l.safe_47_
+# was:	bge	_size_46_, x0, l.safe_47_
 	li	x10, 11
 # was:	li	x10, 11
 	la	x11, m.BadSize
 # was:	la	x11, m.BadSize
 	j	p.RuntimeError
-l.safe_46_:
+l.safe_47_:
 	mv	x14, x3
-# was:	mv	_arr_42_, x3
+# was:	mv	_arr_43_, x3
 	slli	x10, x11, 2
-# was:	slli	_tmp_51_, _size_45_, 2
+# was:	slli	_tmp_52_, _size_46_, 2
 	addi	x10, x10, 4
-# was:	addi	_tmp_51_, _tmp_51_, 4
+# was:	addi	_tmp_52_, _tmp_52_, 4
 	add	x3, x3, x10
-# was:	add	x3, x3, _tmp_51_
+# was:	add	x3, x3, _tmp_52_
 	sw	x11, 0(x14)
-# was:	sw	_size_45_, 0(_arr_42_)
+# was:	sw	_size_46_, 0(_arr_43_)
 	addi	x10, x14, 4
-# was:	addi	_addr_47_, _arr_42_, 4
+# was:	addi	_addr_48_, _arr_43_, 4
 	mv	x12, x0
-# was:	mv	_i_48_, x0
-l.loop_beg_49_:
-	bge	x12, x11, l.loop_end_50_
-# was:	bge	_i_48_, _size_45_, l.loop_end_50_
+# was:	mv	_i_49_, x0
+l.loop_beg_50_:
+	bge	x12, x11, l.loop_end_51_
+# was:	bge	_i_49_, _size_46_, l.loop_end_51_
 	sw	x12, 0(x10)
-# was:	sw	_i_48_, 0(_addr_47_)
+# was:	sw	_i_49_, 0(_addr_48_)
 	addi	x10, x10, 4
-# was:	addi	_addr_47_, _addr_47_, 4
+# was:	addi	_addr_48_, _addr_48_, 4
 	addi	x12, x12, 1
-# was:	addi	_i_48_, _i_48_, 1
-	j	l.loop_beg_49_
-l.loop_end_50_:
+# was:	addi	_i_49_, _i_49_, 1
+	j	l.loop_beg_50_
+l.loop_end_51_:
 	lw	x12, 0(x14)
-# was:	lw	_size_41_, 0(_arr_42_)
+# was:	lw	_size_42_, 0(_arr_43_)
 	mv	x11, x3
-# was:	mv	_let_a2d_40_, x3
+# was:	mv	_let_a2d_41_, x3
 	slli	x10, x12, 2
-# was:	slli	_tmp_66_, _size_41_, 2
+# was:	slli	_tmp_67_, _size_42_, 2
 	addi	x10, x10, 4
-# was:	addi	_tmp_66_, _tmp_66_, 4
+# was:	addi	_tmp_67_, _tmp_67_, 4
 	add	x3, x3, x10
-# was:	add	x3, x3, _tmp_66_
+# was:	add	x3, x3, _tmp_67_
 	sw	x12, 0(x11)
-# was:	sw	_size_41_, 0(_let_a2d_40_)
+# was:	sw	_size_42_, 0(_let_a2d_41_)
 	addi	x13, x11, 4
-# was:	addi	_addrg_52_, _let_a2d_40_, 4
+# was:	addi	_addrg_53_, _let_a2d_41_, 4
 	mv	x10, x0
-# was:	mv	_i_53_, x0
+# was:	mv	_i_54_, x0
 	addi	x14, x14, 4
-# was:	addi	_elem_43_, _arr_42_, 4
-l.loop_beg_54_:
-	bge	x10, x12, l.loop_end_55_
-# was:	bge	_i_53_, _size_41_, l.loop_end_55_
+# was:	addi	_elem_44_, _arr_43_, 4
+l.loop_beg_55_:
+	bge	x10, x12, l.loop_end_56_
+# was:	bge	_i_54_, _size_42_, l.loop_end_56_
 	lw	x16, 0(x14)
-# was:	lw	_res_44_, 0(_elem_43_)
+# was:	lw	_res_45_, 0(_elem_44_)
 	addi	x14, x14, 4
-# was:	addi	_elem_43_, _elem_43_, 4
-# 	mv	_plus_L_58_,_res_44_
+# was:	addi	_elem_44_, _elem_44_, 4
+# 	mv	_plus_L_59_,_res_45_
 	li	x15, 2
-# was:	li	_plus_R_59_, 2
+# was:	li	_plus_R_60_, 2
 	add	x15, x16, x15
-# was:	add	_size_57_, _plus_L_58_, _plus_R_59_
-	bge	x15, x0, l.safe_60_
-# was:	bge	_size_57_, x0, l.safe_60_
+# was:	add	_size_58_, _plus_L_59_, _plus_R_60_
+	bge	x15, x0, l.safe_61_
+# was:	bge	_size_58_, x0, l.safe_61_
 	li	x10, 10
 # was:	li	x10, 10
 	la	x11, m.BadSize
 # was:	la	x11, m.BadSize
 	j	p.RuntimeError
-l.safe_60_:
+l.safe_61_:
 	mv	x16, x3
-# was:	mv	_fun_arg_res_56_, x3
+# was:	mv	_fun_arg_res_57_, x3
 	slli	x17, x15, 2
-# was:	slli	_tmp_65_, _size_57_, 2
+# was:	slli	_tmp_66_, _size_58_, 2
 	addi	x17, x17, 4
-# was:	addi	_tmp_65_, _tmp_65_, 4
+# was:	addi	_tmp_66_, _tmp_66_, 4
 	add	x3, x3, x17
-# was:	add	x3, x3, _tmp_65_
+# was:	add	x3, x3, _tmp_66_
 	sw	x15, 0(x16)
-# was:	sw	_size_57_, 0(_fun_arg_res_56_)
+# was:	sw	_size_58_, 0(_fun_arg_res_57_)
 	addi	x18, x16, 4
-# was:	addi	_addr_61_, _fun_arg_res_56_, 4
+# was:	addi	_addr_62_, _fun_arg_res_57_, 4
 	mv	x17, x0
-# was:	mv	_i_62_, x0
-l.loop_beg_63_:
-	bge	x17, x15, l.loop_end_64_
-# was:	bge	_i_62_, _size_57_, l.loop_end_64_
+# was:	mv	_i_63_, x0
+l.loop_beg_64_:
+	bge	x17, x15, l.loop_end_65_
+# was:	bge	_i_63_, _size_58_, l.loop_end_65_
 	sw	x17, 0(x18)
-# was:	sw	_i_62_, 0(_addr_61_)
+# was:	sw	_i_63_, 0(_addr_62_)
 	addi	x18, x18, 4
-# was:	addi	_addr_61_, _addr_61_, 4
+# was:	addi	_addr_62_, _addr_62_, 4
 	addi	x17, x17, 1
-# was:	addi	_i_62_, _i_62_, 1
-	j	l.loop_beg_63_
-l.loop_end_64_:
-# 	mv	_res_44_,_fun_arg_res_56_
+# was:	addi	_i_63_, _i_63_, 1
+	j	l.loop_beg_64_
+l.loop_end_65_:
+# 	mv	_res_45_,_fun_arg_res_57_
 	sw	x16, 0(x13)
-# was:	sw	_res_44_, 0(_addrg_52_)
+# was:	sw	_res_45_, 0(_addrg_53_)
 	addi	x13, x13, 4
-# was:	addi	_addrg_52_, _addrg_52_, 4
+# was:	addi	_addrg_53_, _addrg_53_, 4
 	addi	x10, x10, 1
-# was:	addi	_i_53_, _i_53_, 1
-	j	l.loop_beg_54_
-l.loop_end_55_:
-# 	mv	_arr_69_,_let_a2d_40_
+# was:	addi	_i_54_, _i_54_, 1
+	j	l.loop_beg_55_
+l.loop_end_56_:
+# 	mv	_arr_70_,_let_a2d_41_
 	lw	x18, 0(x11)
-# was:	lw	_size_68_, 0(_arr_69_)
+# was:	lw	_size_69_, 0(_arr_70_)
 	mv	x19, x3
-# was:	mv	_let_a2df_67_, x3
+# was:	mv	_let_a2df_68_, x3
 	slli	x10, x18, 2
-# was:	slli	_tmp_91_, _size_68_, 2
+# was:	slli	_tmp_92_, _size_69_, 2
 	addi	x10, x10, 4
-# was:	addi	_tmp_91_, _tmp_91_, 4
+# was:	addi	_tmp_92_, _tmp_92_, 4
 	add	x3, x3, x10
-# was:	add	x3, x3, _tmp_91_
+# was:	add	x3, x3, _tmp_92_
 	sw	x18, 0(x19)
-# was:	sw	_size_68_, 0(_let_a2df_67_)
+# was:	sw	_size_69_, 0(_let_a2df_68_)
 	addi	x21, x19, 4
-# was:	addi	_addrg_73_, _let_a2df_67_, 4
+# was:	addi	_addrg_74_, _let_a2df_68_, 4
 	mv	x20, x0
-# was:	mv	_i_74_, x0
+# was:	mv	_i_75_, x0
 	mv	x22, x0
-# was:	mv	_counter_75_, x0
+# was:	mv	_counter_76_, x0
 	addi	x23, x11, 4
-# was:	addi	_elem_70_, _arr_69_, 4
-l.loop_beg_76_:
-	bge	x20, x18, l.loop_end_77_
-# was:	bge	_i_74_, _size_68_, l.loop_end_77_
+# was:	addi	_elem_71_, _arr_70_, 4
+l.loop_beg_77_:
+	bge	x20, x18, l.loop_end_78_
+# was:	bge	_i_75_, _size_69_, l.loop_end_78_
 	lw	x24, 0(x23)
-# was:	lw	_res_71_, 0(_elem_70_)
+# was:	lw	_res_72_, 0(_elem_71_)
 	addi	x23, x23, 4
-# was:	addi	_elem_70_, _elem_70_, 4
+# was:	addi	_elem_71_, _elem_71_, 4
 	mv	x11, x24
-# was:	mv	_arr_81_, _res_71_
+# was:	mv	_arr_82_, _res_72_
 	lw	x12, 0(x11)
-# was:	lw	_size_82_, 0(_arr_81_)
+# was:	lw	_size_83_, 0(_arr_82_)
 	li	x13, 0
-# was:	li	_let_r_80_, 0
+# was:	li	_let_r_81_, 0
 	addi	x11, x11, 4
-# was:	addi	_arr_81_, _arr_81_, 4
+# was:	addi	_arr_82_, _arr_82_, 4
 	mv	x10, x0
-# was:	mv	_ind_var_83_, x0
-l.loop_beg_85_:
-	bge	x10, x12, l.loop_end_86_
-# was:	bge	_ind_var_83_, _size_82_, l.loop_end_86_
+# was:	mv	_ind_var_84_, x0
+l.loop_beg_86_:
+	bge	x10, x12, l.loop_end_87_
+# was:	bge	_ind_var_84_, _size_83_, l.loop_end_87_
 	lw	x14, 0(x11)
-# was:	lw	_tmp_84_, 0(_arr_81_)
+# was:	lw	_tmp_85_, 0(_arr_82_)
 	addi	x11, x11, 4
-# was:	addi	_arr_81_, _arr_81_, 4
-# 	mv	_plus_L_88_,_let_r_80_
-# 	mv	_plus_R_89_,_tmp_84_
+# was:	addi	_arr_82_, _arr_82_, 4
+# 	mv	_plus_L_89_,_let_r_81_
+# 	mv	_plus_R_90_,_tmp_85_
 	add	x13, x13, x14
-# was:	add	_fun_arg_res_87_, _plus_L_88_, _plus_R_89_
-# 	mv	_let_r_80_,_fun_arg_res_87_
+# was:	add	_fun_arg_res_88_, _plus_L_89_, _plus_R_90_
+# 	mv	_let_r_81_,_fun_arg_res_88_
 	addi	x10, x10, 1
-# was:	addi	_ind_var_83_, _ind_var_83_, 1
-	j	l.loop_beg_85_
-l.loop_end_86_:
+# was:	addi	_ind_var_84_, _ind_var_84_, 1
+	j	l.loop_beg_86_
+l.loop_end_87_:
 	mv	x10, x13
-# was:	mv	_arg_90_, _let_r_80_
-# 	mv	x10,_arg_90_
+# was:	mv	_arg_91_, _let_r_81_
+# 	mv	x10,_arg_91_
 	jal	f.even
 # was:	jal	f.even, x10
-# 	mv	_fun_arg_res_79_,x10
-# 	mv	_res2_72_,_fun_arg_res_79_
-	beq	x10, x0, l.false_78_
-# was:	beq	_res2_72_, x0, l.false_78_
+# 	mv	_fun_arg_res_80_,x10
+# 	mv	_res2_73_,_fun_arg_res_80_
+	beq	x10, x0, l.false_79_
+# was:	beq	_res2_73_, x0, l.false_79_
 	sw	x24, 0(x21)
-# was:	sw	_res_71_, 0(_addrg_73_)
+# was:	sw	_res_72_, 0(_addrg_74_)
 	addi	x21, x21, 4
-# was:	addi	_addrg_73_, _addrg_73_, 4
+# was:	addi	_addrg_74_, _addrg_74_, 4
 	addi	x22, x22, 1
-# was:	addi	_counter_75_, _counter_75_, 1
-l.false_78_:
+# was:	addi	_counter_76_, _counter_76_, 1
+l.false_79_:
 	addi	x20, x20, 1
-# was:	addi	_i_74_, _i_74_, 1
-	j	l.loop_beg_76_
-l.loop_end_77_:
+# was:	addi	_i_75_, _i_75_, 1
+	j	l.loop_beg_77_
+l.loop_end_78_:
 	sw	x22, 0(x19)
-# was:	sw	_counter_75_, 0(_let_a2df_67_)
+# was:	sw	_counter_76_, 0(_let_a2df_68_)
 	mv	x10, x19
-# was:	mv	_arg_92_, _let_a2df_67_
-# 	mv	x10,_arg_92_
+# was:	mv	_arg_93_, _let_a2df_68_
+# 	mv	x10,_arg_93_
 	jal	f.write_2darr
 # was:	jal	f.write_2darr, x10
-# 	mv	_mainres_38_,x10
-# 	mv	x10,_mainres_38_
+# 	mv	_mainres_39_,x10
+# 	mv	x10,_mainres_39_
 	addi	x2, x2, 32
 	lw	x24, -32(x2)
 	lw	x23, -28(x2)

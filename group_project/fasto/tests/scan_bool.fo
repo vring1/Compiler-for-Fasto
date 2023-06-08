@@ -1,0 +1,9 @@
+fun bool and(bool a, bool b) = a && b
+
+fun bool writebool(bool n) = write(n)
+
+fun [bool] main() =
+  let a = {true, false, true, true, false} in
+  let b = scan(and, true, a) in
+  map(writebool, b)
+

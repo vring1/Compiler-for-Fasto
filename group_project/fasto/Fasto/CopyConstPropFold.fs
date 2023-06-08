@@ -17,7 +17,7 @@ type Propagatee =
 type VarTable = SymTab.SymTab<Propagatee>
 
 let rec copyConstPropFoldExp (vtable : VarTable)
-                             (e      : TypedExp) =
+                             (e      : TypedExp) = 
     match e with
         (* Copy propagation is handled entirely in the following three
         cases for variables, array indexing, and let-bindings. *)
@@ -32,7 +32,7 @@ let rec copyConstPropFoldExp (vtable : VarTable)
             match e' with
                 | Some (VarProp v) -> Var (v, pos)
                 | Some (ConstProp c) -> Constant (c, pos)
-                | _ -> Var(name, pos)
+                | _ -> Var(name, pos) 
 
         | Index (name, e, t, pos) ->
             (* TODO project task 3:
@@ -48,13 +48,13 @@ let rec copyConstPropFoldExp (vtable : VarTable)
         | Let (Dec (name, e, decpos), body, pos) ->
             let e' = copyConstPropFoldExp vtable e
             match e' with
-                | Var (name, pos) ->
+                | Var (name, pos) -> // x = y
                     (* TODO project task 3:
                         Hint: I have discovered a variable-copy statement `let x = a`.
                               I should probably record it in the `vtable` by
                               associating `x` with a variable-propagatee binding,
                               and optimize the `body` of the let.
-                    *) //DONE
+                    *)
                     let vtable' = SymTab.bind name (VarProp name) vtable
                     let body' = copyConstPropFoldExp vtable' body
                     body'
@@ -65,7 +65,7 @@ let rec copyConstPropFoldExp (vtable : VarTable)
                               I should probably record it in the `vtable` by
                               associating `x` with a constant-propagatee binding,
                               and optimize the `body` of the let.
-                    *) //DONE
+                    *)
                     let vtable' = SymTab.bind name (ConstProp c) vtable
                     let body' = copyConstPropFoldExp vtable' body
                     body'
@@ -81,9 +81,10 @@ let rec copyConstPropFoldExp (vtable : VarTable)
                         A potential solution is to optimize directly the
                         restructured, semantically-equivalent expression:
                                 `let x = e1 in let y = e2 in e3`
-                    *) //DONE
+                    *)
 
-                    let body' = copyConstPropFoldExp vtable (
+                    let body' = 
+                        copyConstPropFoldExp vtable (
                         Let(Dec(name2, e2, decpos), 
                         Let(Dec(name, body2, decpos2), body, pos2), pos) 
                         )
@@ -99,18 +100,29 @@ let rec copyConstPropFoldExp (vtable : VarTable)
                yourself from the case of `Plus`. For example:
                      1 * x = ?
                      x * 0 = ?
-            *) //DONE
+            *)
             let e1' = copyConstPropFoldExp vtable e1
             let e2' = copyConstPropFoldExp vtable e2
             match (e1', e2') with
                 | (Constant (IntVal x, _), Constant (IntVal y, _)) -> // x * y = _
                     Constant (IntVal (x * y), pos)
+                
                 | (Constant (IntVal 1, _), _) -> e2' // 1 * x = x
+                
                 | (_, Constant (IntVal 1, _)) -> e1' // x * 1 = x
+                
                 | (Constant (IntVal 0, _), _) ->  // 0 * x = 0
                     Constant (IntVal 0, pos)
+                
                 | (_, Constant (IntVal 0, _)) -> // x * 0 = 0
                     Constant (IntVal 0, pos)
+                
+                | (_, Constant (IntVal -1, _)) -> // x * (-1) = -x
+                    Minus(Constant(IntVal 0, pos), e1', pos)
+                
+                | (Constant (IntVal -1, _), _) -> // -1 * x = -x
+                    Minus(Constant(IntVal 0, pos), e2', pos)
+
                 | _ -> Times (e1', e2', pos)
 
         | And (e1, e2, pos) ->
@@ -121,12 +133,17 @@ let rec copyConstPropFoldExp (vtable : VarTable)
             match (e1', e2') with
                 | (Constant (BoolVal a, _), Constant (BoolVal b, _)) -> // a && b = _
                     Constant (BoolVal (a && b), pos)
-                | (Constant (BoolVal true, _), _) -> e2' // true && x = x
-                | (_, Constant (BoolVal true, _)) -> e1' // x && true = x
+                
+                // returns warning, but would be correct optimization
+                // | (Constant (BoolVal true, _), Constant (BoolVal true, _))  -> // true && true = true  
+                //     Constant (BoolVal true, pos)
+                    
                 | (Constant (BoolVal false, _), _) -> // false && x = false
                     Constant (BoolVal false, pos)
+                
                 | (_, Constant (BoolVal false, _)) -> // x && false = false
                     Constant (BoolVal false, pos)
+                
                 | _ -> And (e1', e2', pos)
                 
         | Constant (x,pos) -> Constant (x,pos)
@@ -157,7 +174,7 @@ let rec copyConstPropFoldExp (vtable : VarTable)
                 | (Constant (IntVal v1, _), Constant (IntVal v2, _)) ->
                     Constant (BoolVal (v1 = v2), pos)
                 | _ ->
-                    if false (* e1' = e2' *)  (* <- this would be unsafe! (why?) *)
+                    if false (* e1' = e2' *)  (* <- this would be unsafe! (why?) *) 
                     then Constant (BoolVal true, pos)
                     else Equal (e1', e2', pos)
         | Less (e1, e2, pos) ->

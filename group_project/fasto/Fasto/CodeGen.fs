@@ -168,7 +168,7 @@ let rec compileExp  (e      : TypedExp)
       [ LI (place, n) ] (* assembler will generate appropriate
                            instruction sequence for any value n *)
   | Constant (BoolVal p, _) ->
-      (* TODO project task 1: represent `true`/`false` values as `1`/`0` *) //DONE
+      (* TODO project task 1: represent `true`/`false` values as `1`/`0` *)
       [ LI (place, if p then 1 else 0) ]
   | Constant (CharVal c, pos) -> [ LI (place, int c) ]
 
@@ -236,8 +236,8 @@ let rec compileExp  (e      : TypedExp)
      For `Divide`, you may ignore division by zero for a quick first
      version, but remember to come back and clean it up later.
      `Not` and `Negate` are simpler; you can use `XORI` for `Not`
-  *) //DONE
-  | Times (e1: Exp<Type>, e2, pos) ->
+  *)
+  | Times (e1, e2, pos) ->
       let t1 = newReg "times_L"
       let t2 = newReg "times_R"
       let code1 = compileExp e1 vtable t1
@@ -248,18 +248,17 @@ let rec compileExp  (e      : TypedExp)
       let t1 = newReg "divide_L"
       let t2 = newReg "divide_R"
       let divByZero = newLab "divByZero"
+      let divLegal = newLab "divLegal"
       let code1 = compileExp e1 vtable t1
       let code2 = compileExp e2 vtable t2
       let div = [ BEQ (t2, Rzero, divByZero)
                 ; DIV (place,t1,t2)
-                ; J divByZero
-                ; LABEL divByZero ]
-
-      // let code3 = [BEQ (t2, Rzero, divByZero)]
-      // let code4 = [DIV (place,t1,t2)]
-      // let code5 = [J divByZero]
-      // let code6 = [LABEL divByZero]
-      // code1 @ code2 @ code3 @ code4 @ code5 @ code6
+                ; J divLegal
+                ; LABEL divByZero
+                ; LA (Ra1, "m.DivZero")
+                ; J "p.RuntimeError"
+                ; LABEL divLegal
+                ]
       code1 @ code2 @ div
 
   | Not (e1, pos) ->
@@ -577,9 +576,9 @@ let rec compileExp  (e      : TypedExp)
          ]
 
   (* TODO project task 2:
-        `replicate (n, a)` //DONE
-        `filter (f, arr)`  //DONE
-        `scan (f, ne, arr)`//DONE
+        `replicate (n, a)`
+        `filter (f, arr)` 
+        `scan (f, ne, arr)`
      Look in `AbSyn.fs` for the shape of expression constructors
         `Replicate`, `Filter`, `Scan`.
      General Hint: write down on a piece of paper the C-like pseudocode
@@ -618,25 +617,21 @@ let rec compileExp  (e      : TypedExp)
   | Replicate (n_exp, elem_exp, ret_type, pos) ->
       let arr_reg = newReg "arr"                        (* address of array *)
       let size_reg = newReg "size"      
-      let elem_reg = newReg "elem"                (* size of input array *)
-      let elem_code = compileExp elem_exp vtable elem_reg     (* compile n_exp into size_reg *)
+      let elem_reg = newReg "elem"                      
+      let elem_code = compileExp elem_exp vtable elem_reg     (*compile elem_exp, which is the element to be replicated, into elem_reg*)
       let n_code = compileExp n_exp vtable size_reg     (* compile n_exp into size_reg *)
       let safe_lab = newLab "safe"                      (* safe label, used for checking if n is >= 0 *)
       let type_size = elemSizeToInt(getElemSize ret_type)
       let checksize = [ BGE (size_reg, Rzero, safe_lab) (* check if n >= 0 *)
-                      ; LA (Ra0, "m.BadSize")           (* if not, raise error *)
+                      ; LA (Ra1, "m.BadSize")           (* if not, raise error *)
                       ; J "p.RuntimeError"
                       ; LABEL (safe_lab)
                       ]
-      //Now we know n>=0, so we can allocate n elements of type ret_type
       let dynalloc_code = dynalloc (size_reg, arr_reg, ret_type)
-      //Now we need to set the first element of the array to n
       let set_first_elem = [ SW (size_reg, arr_reg, 0) ]
-      //Now we need to set the rest of the elements to a in a loop
       let loop_beg = newLab "loop_beg"
       let loop_end = newLab "loop_end"
       let i_reg = newReg "i"
-
       let start_addr = [ MV(place, arr_reg) ]
 
       let loop_code = [ ADDI (arr_reg, arr_reg, 4) (* set arr_reg to address of first element instead *)
@@ -681,8 +676,8 @@ let rec compileExp  (e      : TypedExp)
   // {
   //  int n = arr[0];
   //  void* res = dynalloc(n, place, void*); // dynallocating enough space for n elements, although we don't know how many will be in the result array.
-  //  int counter = 0;
-  //  for (int i = 0; i < n; i++) {
+  //  int counter = 1;
+  //  for (int i = 1; i < n; i++) {
   //    if (f(arr[i])) {
   //      res[counter] = arr[i];
   //      counter++;
@@ -802,14 +797,13 @@ let rec compileExp  (e      : TypedExp)
 
       let loop_filter = [
                         Load src_size (res_reg2, elem_reg, 0)  (* load elem_reg from addr_reg *)
-                        ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size) (* increment elem_reg by elem_size *)
+                        ; ADDI (elem_reg, elem_reg, elemSizeToInt src_size) (* increment elem_reg by src_size *)
                         ]
-                        //need to account for acc_exp
-                        @ applyFunArg(binop, [res_reg; res_reg2], vtable, res_reg, pos)  (* apply f to elem_reg, store result in res_reg2 *)
+                        @ applyFunArg(binop, [res_reg; res_reg2], vtable, res_reg, pos)  
                         @ 
                         [
                         Store dst_size (res_reg, addr_reg, 0) (* store res_reg2 in addr_reg *)
-                        ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by elem_size *)
+                        ; ADDI (addr_reg, addr_reg, elemSizeToInt dst_size) (* increment addr_reg by dst_size *)
                         ]
 
       let loop_footer = [

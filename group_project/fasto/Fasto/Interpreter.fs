@@ -145,7 +145,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
         For `And`/`Or`: make sure to implement the short-circuit semantics,
         e.g., `And (e1, e2, pos)` should not evaluate `e2` if `e1` already
               evaluates to false.
-  *) //DONE
+  *)
   | Times(e1, e2, pos) ->
       let res1   = evalExp(e1, vtab, ftab)
       let res2   = evalExp(e2, vtab, ftab)
@@ -285,7 +285,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
        - If so then create an array containing `n` replicas of
          the value of `a`; otherwise raise an error (containing
          a meaningful message).
-  *) //DONE
+  *)
   | Replicate (n, a, atype, pos) ->
         let size = evalExp(n, vtab, ftab)
         let aval = evalExp(a, vtab, ftab)
@@ -309,7 +309,7 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
        - use F# `List.filter` to keep only the elements `a` of `arr` which succeed
          under predicate `p`, i.e., `p(a) = true`;
        - create an `ArrayVal` from the (list) result of the previous step.
-  *) //DONE
+  *)
   | Filter (farg, arrexp, t, pos) ->
         let arr = evalExp(arrexp, vtab, ftab)
         match arr with
@@ -323,13 +323,13 @@ let rec evalExp (e : UntypedExp, vtab : VarTable, ftab : FunTable) : Value =
                     then x :: filter_helper xs
                     else filter_helper xs
             let filter_result = filter_helper lst
-            ArrayVal (filter_result, tp1) //tp1 is the type of the array
+            ArrayVal (filter_result, tp1)
         | otherwise -> reportNonArray "2nd argument of \"filter\"" arr pos
 
   (* TODO project task 2: `scan(f, ne, arr)`
      Implementation similar to reduce, except that it produces an array
      of the same type and length to the input array `arr`.
-  *) //DONE
+  *)
   | Scan (farg, ne, arrexp, tp, pos) ->
         let arr = evalExp(arrexp, vtab, ftab)  
         let nel = evalExp (ne, vtab, ftab) //initial value for the accumulator

@@ -39,167 +39,184 @@ l.wBoolF_5_:
 # Function main
 f.main:
 	sw	x1, -4(x2)
-	sw	x21, -20(x2)
 	sw	x20, -16(x2)
 	sw	x19, -12(x2)
 	sw	x18, -8(x2)
-	addi	x2, x2, -20
+	addi	x2, x2, -16
 	li	x10, 3
 # was:	li	_divide_L_14_, 3
-	li	x12, 2
+	li	x11, 2
 # was:	li	_divide_R_15_, 2
-	beq	x12, x0, l.divByZero_16_
+	beq	x11, x0, l.divByZero_16_
 # was:	beq	_divide_R_15_, x0, l.divByZero_16_
-	div	x11, x10, x12
+	div	x11, x10, x11
 # was:	div	_eq_L_12_, _divide_L_14_, _divide_R_15_
-	j	l.divByZero_16_
+	j	l.divLegal_17_
 l.divByZero_16_:
-	li	x12, 1
-# was:	li	_eq_R_13_, 1
-	li	x10, 0
-# was:	li	_arg_11_, 0
-	bne	x11, x12, l.false_17_
-# was:	bne	_eq_L_12_, _eq_R_13_, l.false_17_
+	la	x11, m.DivZero
+# was:	la	x11, m.DivZero
+	j	p.RuntimeError
+l.divLegal_17_:
 	li	x10, 1
+# was:	li	_eq_R_13_, 1
+	li	x12, 0
+# was:	li	_arg_11_, 0
+	bne	x11, x10, l.false_18_
+# was:	bne	_eq_L_12_, _eq_R_13_, l.false_18_
+	li	x12, 1
 # was:	li	_arg_11_, 1
-l.false_17_:
-# 	mv	x10,_arg_11_
+l.false_18_:
+	mv	x10, x12
+# was:	mv	x10, _arg_11_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 	mv	x19, x10
 # was:	mv	_let_x0_10_, x10
 	li	x10, 3
-# was:	li	_divide_L_23_, 3
+# was:	li	_divide_L_24_, 3
 	li	x11, 2
-# was:	li	_divide_R_24_, 2
-	beq	x11, x0, l.divByZero_25_
-# was:	beq	_divide_R_24_, x0, l.divByZero_25_
-	div	x20, x10, x11
-# was:	div	_negate_22_, _divide_L_23_, _divide_R_24_
-	j	l.divByZero_25_
-l.divByZero_25_:
-	sub	x11, x0, x20
-# was:	sub	_eq_L_20_, x0, _negate_22_
+# was:	li	_divide_R_25_, 2
+	beq	x11, x0, l.divByZero_26_
+# was:	beq	_divide_R_25_, x0, l.divByZero_26_
+	div	x10, x10, x11
+# was:	div	_negate_23_, _divide_L_24_, _divide_R_25_
+	j	l.divLegal_27_
+l.divByZero_26_:
+	la	x11, m.DivZero
+# was:	la	x11, m.DivZero
+	j	p.RuntimeError
+l.divLegal_27_:
+	sub	x11, x0, x10
+# was:	sub	_eq_L_21_, x0, _negate_23_
 	li	x10, 2
-# was:	li	_negate_26_, 2
-	sub	x12, x0, x10
-# was:	sub	_eq_R_21_, x0, _negate_26_
-	li	x10, 0
-# was:	li	_arg_19_, 0
-	bne	x11, x12, l.false_27_
-# was:	bne	_eq_L_20_, _eq_R_21_, l.false_27_
-	li	x10, 1
-# was:	li	_arg_19_, 1
-l.false_27_:
-# 	mv	x10,_arg_19_
+# was:	li	_negate_28_, 2
+	sub	x10, x0, x10
+# was:	sub	_eq_R_22_, x0, _negate_28_
+	li	x12, 0
+# was:	li	_arg_20_, 0
+	bne	x11, x10, l.false_29_
+# was:	bne	_eq_L_21_, _eq_R_22_, l.false_29_
+	li	x12, 1
+# was:	li	_arg_20_, 1
+l.false_29_:
+	mv	x10, x12
+# was:	mv	x10, _arg_20_
+	jal	f.write_nl
+# was:	jal	f.write_nl, x10
+	mv	x18, x10
+# was:	mv	_let_x1_19_, x10
+	li	x10, 3
+# was:	li	_divide_L_34_, 3
+	li	x11, 2
+# was:	li	_negate_38_, 2
+	sub	x11, x0, x11
+# was:	sub	_divide_R_35_, x0, _negate_38_
+	beq	x11, x0, l.divByZero_36_
+# was:	beq	_divide_R_35_, x0, l.divByZero_36_
+	div	x10, x10, x11
+# was:	div	_eq_L_32_, _divide_L_34_, _divide_R_35_
+	j	l.divLegal_37_
+l.divByZero_36_:
+	la	x11, m.DivZero
+# was:	la	x11, m.DivZero
+	j	p.RuntimeError
+l.divLegal_37_:
+	li	x11, 2
+# was:	li	_negate_39_, 2
+	sub	x11, x0, x11
+# was:	sub	_eq_R_33_, x0, _negate_39_
+	li	x12, 0
+# was:	li	_arg_31_, 0
+	bne	x10, x11, l.false_40_
+# was:	bne	_eq_L_32_, _eq_R_33_, l.false_40_
+	li	x12, 1
+# was:	li	_arg_31_, 1
+l.false_40_:
+	mv	x10, x12
+# was:	mv	x10, _arg_31_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 	mv	x20, x10
-# was:	mv	_let_x1_18_, x10
+# was:	mv	_let_x2_30_, x10
 	li	x10, 3
-# was:	li	_divide_L_32_, 3
+# was:	li	_divide_L_46_, 3
 	li	x11, 2
-# was:	li	_negate_35_, 2
+# was:	li	_negate_50_, 2
 	sub	x11, x0, x11
-# was:	sub	_divide_R_33_, x0, _negate_35_
-	beq	x11, x0, l.divByZero_34_
-# was:	beq	_divide_R_33_, x0, l.divByZero_34_
-	div	x21, x10, x11
-# was:	div	_eq_L_30_, _divide_L_32_, _divide_R_33_
-	j	l.divByZero_34_
-l.divByZero_34_:
-	li	x10, 2
-# was:	li	_negate_36_, 2
-	sub	x11, x0, x10
-# was:	sub	_eq_R_31_, x0, _negate_36_
-	li	x10, 0
-# was:	li	_arg_29_, 0
-	bne	x21, x11, l.false_37_
-# was:	bne	_eq_L_30_, _eq_R_31_, l.false_37_
-	li	x10, 1
-# was:	li	_arg_29_, 1
-l.false_37_:
-# 	mv	x10,_arg_29_
-	jal	f.write_nl
-# was:	jal	f.write_nl, x10
-	mv	x21, x10
-# was:	mv	_let_x2_28_, x10
-	li	x10, 3
-# was:	li	_divide_L_43_, 3
-	li	x11, 2
-# was:	li	_negate_46_, 2
-	sub	x11, x0, x11
-# was:	sub	_divide_R_44_, x0, _negate_46_
-	beq	x11, x0, l.divByZero_45_
-# was:	beq	_divide_R_44_, x0, l.divByZero_45_
-	div	x18, x10, x11
-# was:	div	_negate_42_, _divide_L_43_, _divide_R_44_
-	j	l.divByZero_45_
-l.divByZero_45_:
-	sub	x12, x0, x18
-# was:	sub	_eq_L_40_, x0, _negate_42_
-	li	x10, 1
-# was:	li	_eq_R_41_, 1
-	li	x11, 0
-# was:	li	_arg_39_, 0
-	bne	x12, x10, l.false_47_
-# was:	bne	_eq_L_40_, _eq_R_41_, l.false_47_
+# was:	sub	_divide_R_47_, x0, _negate_50_
+	beq	x11, x0, l.divByZero_48_
+# was:	beq	_divide_R_47_, x0, l.divByZero_48_
+	div	x10, x10, x11
+# was:	div	_negate_45_, _divide_L_46_, _divide_R_47_
+	j	l.divLegal_49_
+l.divByZero_48_:
+	la	x11, m.DivZero
+# was:	la	x11, m.DivZero
+	j	p.RuntimeError
+l.divLegal_49_:
+	sub	x10, x0, x10
+# was:	sub	_eq_L_43_, x0, _negate_45_
 	li	x11, 1
-# was:	li	_arg_39_, 1
-l.false_47_:
-	mv	x10, x11
-# was:	mv	x10, _arg_39_
+# was:	li	_eq_R_44_, 1
+	li	x12, 0
+# was:	li	_arg_42_, 0
+	bne	x10, x11, l.false_51_
+# was:	bne	_eq_L_43_, _eq_R_44_, l.false_51_
+	li	x12, 1
+# was:	li	_arg_42_, 1
+l.false_51_:
+	mv	x10, x12
+# was:	mv	x10, _arg_42_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
-# 	mv	_let_x3_38_,x10
-# 	mv	_and_L_53_,_let_x0_10_
-	beq	x19, x0, l.false_56_
-# was:	beq	_and_L_53_, x0, l.false_56_
-# 	mv	_not_55_,_let_x1_18_
+# 	mv	_let_x3_41_,x10
+# 	mv	_and_L_57_,_let_x0_10_
+	beq	x19, x0, l.false_60_
+# was:	beq	_and_L_57_, x0, l.false_60_
+# 	mv	_not_59_,_let_x1_19_
+	xori	x11, x18, 1
+# was:	xori	_and_R_58_, _not_59_, 1
+	beq	x11, x0, l.false_60_
+# was:	beq	_and_R_58_, x0, l.false_60_
+	li	x11, 1
+# was:	li	_and_L_55_, 1
+	j	l.end_61_
+l.false_60_:
+	li	x11, 0
+# was:	li	_and_L_55_, 0
+l.end_61_:
+	beq	x11, x0, l.false_63_
+# was:	beq	_and_L_55_, x0, l.false_63_
+# 	mv	_not_62_,_let_x2_30_
 	xori	x11, x20, 1
-# was:	xori	_and_R_54_, _not_55_, 1
-	beq	x11, x0, l.false_56_
-# was:	beq	_and_R_54_, x0, l.false_56_
+# was:	xori	_and_R_56_, _not_62_, 1
+	beq	x11, x0, l.false_63_
+# was:	beq	_and_R_56_, x0, l.false_63_
 	li	x11, 1
-# was:	li	_and_L_51_, 1
-	j	l.end_57_
-l.false_56_:
+# was:	li	_and_L_53_, 1
+	j	l.end_64_
+l.false_63_:
 	li	x11, 0
-# was:	li	_and_L_51_, 0
-l.end_57_:
-	beq	x11, x0, l.false_59_
-# was:	beq	_and_L_51_, x0, l.false_59_
-# 	mv	_not_58_,_let_x2_28_
-	xori	x11, x21, 1
-# was:	xori	_and_R_52_, _not_58_, 1
-	beq	x11, x0, l.false_59_
-# was:	beq	_and_R_52_, x0, l.false_59_
-	li	x11, 1
-# was:	li	_and_L_49_, 1
-	j	l.end_60_
-l.false_59_:
-	li	x11, 0
-# was:	li	_and_L_49_, 0
-l.end_60_:
-	beq	x11, x0, l.false_61_
-# was:	beq	_and_L_49_, x0, l.false_61_
-# 	mv	_and_R_50_,_let_x3_38_
-	beq	x10, x0, l.false_61_
-# was:	beq	_and_R_50_, x0, l.false_61_
+# was:	li	_and_L_53_, 0
+l.end_64_:
+	beq	x11, x0, l.false_65_
+# was:	beq	_and_L_53_, x0, l.false_65_
+# 	mv	_and_R_54_,_let_x3_41_
+	beq	x10, x0, l.false_65_
+# was:	beq	_and_R_54_, x0, l.false_65_
 	li	x10, 1
-# was:	li	_arg_48_, 1
-	j	l.end_62_
-l.false_61_:
+# was:	li	_arg_52_, 1
+	j	l.end_66_
+l.false_65_:
 	li	x10, 0
-# was:	li	_arg_48_, 0
-l.end_62_:
-# 	mv	x10,_arg_48_
+# was:	li	_arg_52_, 0
+l.end_66_:
+# 	mv	x10,_arg_52_
 	jal	f.write_nl
 # was:	jal	f.write_nl, x10
 # 	mv	_mainres_9_,x10
 # 	mv	x10,_mainres_9_
-	addi	x2, x2, 20
-	lw	x21, -20(x2)
+	addi	x2, x2, 16
 	lw	x20, -16(x2)
 	lw	x19, -12(x2)
 	lw	x18, -8(x2)

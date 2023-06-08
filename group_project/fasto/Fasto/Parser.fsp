@@ -30,10 +30,8 @@ let parse_error_rich =
 //       *, /, ~, not, &&, ||
 //     - generalize the syntax of let-expressions to allow
 //       multiple variable declarations
-//       DONE
 //
 //   TODO: project task 2: replicate, filter, scan 
-//       DONE
 //
 //   TODO: project task 4: array comprehension
 //////////////////////////////////////////////////////////////////////
@@ -51,10 +49,10 @@ let parse_error_rich =
 %token <Position> NEG NOT AND OR 
 %token <Position> TRUE FALSE 
 
-%nonassoc ifprec
-%nonassoc letprec
+%nonassoc ifprec letprec
 %left OR
-%left AND NOT
+%left AND 
+%nonassoc NOT
 %left IF THEN ELSE
 %left LET IN
 %left LTH LESS DEQ EQ
@@ -148,22 +146,11 @@ Exp : NUM            { Constant (IntVal (fst $1), snd $1) }
                      { Reduce ($3, $5, $7, (), $1) }
     | LPAR Exp RPAR  { $2 }
 
-//TODO: BRACKETS - still not working with implementation below
-     | LBRACKET Exps RBRACKET
-                          { ArrayLit ($2, (), $1) }
-     
-
-
     | SCAN LPAR FunArg COMMA Exp COMMA Exp RPAR
                      { Scan ($3, $5, $7, (), $1) }
     | FILTER LPAR FunArg COMMA Exp RPAR
                      { Filter ($3, $5, (), $1) }
     // TODO: task 1(b): replace this with a more general production
-    // DONE
-    //| LET ID EQ Exp IN Exp %prec letprec
-    //                 { Let (Dec (fst $2, $4, $3), $6, $1) }
-
-    //| LET Decls IN Exp %prec letprec { Let ($2, $4, $1) }
 
     | LET ID EQ Exp Lets %prec letprec { Let (Dec (fst $2, $4, $3), $5, $1)}
 

@@ -1,0 +1,11 @@
+fun char write_char(char x) = write(x)
+
+fun [char] write_char_arr([char] x) = map(write_char, x)
+
+fun bool isSpecificChar(char a) =
+    a == 'e' || a == 'a'
+
+fun [char] main() =
+    let arr = {'h','e','j','s','a'} in
+    let resulting_arr = filter(isSpecificChar,arr) in
+    write_char_arr(resulting_arr)

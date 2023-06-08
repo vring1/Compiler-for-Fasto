@@ -70,8 +70,7 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
             *)
             (
                 false, 
-                //(SymTab.empty()) results in errors when running the test cases
-                recordUse name (SymTab.empty()),
+                (recordUse name (SymTab.empty())),
                 Var (name, pos)
             )
             
@@ -118,16 +117,16 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
             (anytrue ios || fname <> "length",
              List.fold SymTab.combine (SymTab.empty()) uses,
              Apply (fname, args', pos))
-        | Index (name, e, t, pos) ->
+        | Index (name, e, t, pos) -> 
             (* Task 3, `Index` case: is similar to the `Var` case, except that,
                         additionally, you also need to recursively optimize the index
                         expression `e` and to propagate its results (in addition
                         to recording the use of `name`).
             *)
-            let (ios, uses, e') = removeDeadBindingsInExp (e)
+            let (eio, euses, e') = removeDeadBindingsInExp (e)
             (
-                ios, 
-                recordUse name (SymTab.empty()), 
+                eio,
+                (recordUse name euses), 
                 Index (name, e', t, pos) 
             )
             //failwith "Unimplemented removeDeadBindingsInExp for Index"
@@ -159,12 +158,14 @@ let rec removeDeadBindingsInExp (e : TypedExp) : (bool * DBRtab * TypedExp) =
             let (eio, euses, e') = removeDeadBindingsInExp e
             let (bio, buses, body') = removeDeadBindingsInExp body
             if ((isUsed name buses) || eio) then
-                (eio || bio,
+                (
+                eio || bio,
                 SymTab.combine euses (SymTab.remove name buses),
                 Let (Dec (name, e', decpos), body', pos)
                 )
-            else 
-                (bio,
+            else
+                (
+                bio,
                 buses,
                 body'
                 )

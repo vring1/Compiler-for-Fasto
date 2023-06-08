@@ -1,0 +1,5 @@
+fun char writechar(char b) = write(b)
+
+fun [char] main() =
+  let fs = replicate(4, 'a') in
+  map(writechar, fs)

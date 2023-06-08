@@ -1,0 +1,4 @@
+fun bool main() =
+    let x = ~(0-8) == 8 in
+    let y = ~6 == (0-6) in
+    write(x && y)
